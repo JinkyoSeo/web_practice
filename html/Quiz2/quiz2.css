@@ -11,7 +11,7 @@ html, body {
   }
   
   body {
-    width: 70%;
+    width: 97%;
     margin: 0 auto;
   }
   
@@ -50,16 +50,22 @@ html, body {
   
   /* || header layout */
   
-  nav, article, aside, footer {
+  nav, article, aside, footer, header {
     background-color: white;
     padding: 1%;
   }
+
+  header{
+    height: 150;
+    background-color: #54D454;
+    margin-bottom: 8px;
+  }
   
   nav {
-    height: 50px;
-    background-color: #ff80ff;
+    height: 30px;
+    background-color: #29E929;
     display: flex;
-    margin-bottom: 10px;
+    margin: 8px;
   }
   
   nav ul {
@@ -112,17 +118,29 @@ html, body {
   
   main {
     display: flex;
+    background-color: #54D454;
+    padding: 8px;
   }
   
   article {
-    flex: 4;
+    flex: 2;
+    background-color: #29E929
   }
   
   aside {
     flex: 1;
+    margin-left: 10px;
+    background-color: #29E929
+  }
+
+  aside ul{
+    display: flex;
+    align-content: normal;
   }
   
+
   
   footer {
     margin-top: 10px;
+    background-color: #54D454
   }
