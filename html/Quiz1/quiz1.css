@@ -4,3 +4,7 @@ body {
     font-family: Times New Roman, Times, serif;
     padding: 0 5%
 }
+
+.align-right{
+    text-align: right;
+}
