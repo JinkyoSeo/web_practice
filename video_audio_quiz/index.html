@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Media/embedding: Task 1</title>
+    <style>
+      body {
+        background-color: #fff;
+        color: #333;
+        font: 1em / 1.4 Helvetica Neue, Helvetica, Arial, sans-serif;
+        padding: 1em;
+        margin: 0;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      audio {
+        border: 1px solid black;
+      }
+      video{
+        border: 1px solid black;
+      }
+      object{
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Basic audio embed</h1>
+    <audio controls>
+        <source src="file/test_audio.mp3" type="audio/mp3">
+        <source src="file/test_audio.ogg" type="audio/ogg">
+        <p>음성 재생 안되면 <a href="file/test_audio.mp3"></a>여기 클릭</p>
+    </audio>
+
+    <h1>Video embed</h1>
+    <video controls
+           height="240px"
+           width="320px">
+        <source src="file/test_video.mp4" type="video/mp4">
+        <source src="file/test_video.webm" type="video/webm">
+        <p>브라우저에서 실행이 안되면 <a href="file/test_video.mp4">여기 클릭</a></p>
+        <track kind="subtitles" src="subtitles_es.vtt" srclang="es" label="Spanish"/>
+        <track kind="subtitles" src="subtitles_en.vtt" srclang="en" label="English" default/>
+    </video>
+    <object data="file/kanguroo.pdf" type="application/pdf" width="300" height="500">
+        <p>
+          You don't have a PDF plugin, but you can
+          <a href="kanguroo.pdf">download the PDF file. </a>
+        </p>
+      </object>
+  </body>
+
+</html>
