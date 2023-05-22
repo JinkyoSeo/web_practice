@@ -1,0 +1,7 @@
+h2 + p{
+    color: red;
+}
+
+ul[class] > li {
+    border-bottom: 1px solid grey;
+}
