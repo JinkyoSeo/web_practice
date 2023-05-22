@@ -1,0 +1,39 @@
+h1 {
+    color: red;
+}
+
+p {
+    color: green;
+}
+
+p,
+li {
+    color: orange;
+}
+  
+  ol.normal {
+    list-style-type: upper-alpha;
+  }
+  
+  /* or use the shortcut "list-style": */
+  ol.shortcut {
+    list-style: upper-alpha;
+  }
+
+  ol {
+    font-size: 1.2rem;
+  }
+  
+  .container {
+    column-count: 3;
+  }
+  
+  label {
+    display: block;
+  }
+  
+  input {
+    margin: 0.4rem;
+  }
+  
+  
