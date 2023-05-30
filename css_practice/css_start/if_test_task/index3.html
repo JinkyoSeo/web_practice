@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Conditionals: Task 3</title>
+    <style>
+      p {
+        color: purple;
+        margin: 0.5em 0;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+    </style>
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+
+  <body>
+
+    <section class="preview">
+
+
+
+    </section>
+
+  </body>
+  <script>
+    let response;
+    let score = 75;
+    let machineActive = true;
+
+    if(machineActive) {
+      // Add your code here
+      
+      switch (true) {
+            case (score < 0 || score > 100):
+                response = "이것은 가능하지 않습니다, 오류가 발생했습니다.";
+                break;
+            case (score >= 20 && score <= 39):
+                response = "조금 알긴 하지만 꽤 나쁜 점수입니다.발전이 필요합니다.";
+                break;
+            case (score >= 40 && score <= 69):
+                response = "그런대로 잘 하셨네요, 나쁘지 않습니다!";
+                break;
+            case (score >= 70 && score <= 89):
+                response = "훌륭한 점수입니다, 정말로 잘 아시는군요.";
+                break;
+            case (score >= 90 && score <= 100):
+                response = "놀라운 점수입니다! 커닝하셨나요? 진짜인가요?";
+                break;
+        }
+    } else {
+      response = 'The machine is turned off. Turn it on to process your score.';
+    }
+
+    // Don't edit the code below here!
+
+    const section = document.querySelector('section');
+
+    let para1 = document.createElement('p');
+    let para2 = document.createElement('p');
+
+    para1.textContent = `Your score is ${ score }.`;
+    para2.textContent = response;
+
+    section.appendChild(para1);
+    section.appendChild(para2);
+  </script>
+
+</html>

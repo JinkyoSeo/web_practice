@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Conditionals: Task 2</title>
+    <style>
+      p {
+        color: purple;
+        margin: 0.5em 0;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+    </style>
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+
+  <body>
+
+    <section class="preview"></section>
+
+  </body>
+  
+  
+  <script>
+    let response;
+    let score = 75;
+    let machineActive = false;
+  
+    // Add your code here
+    if (score < 0 || score > 100) response = "이것은 가능하지 않습니다, 오류가 발생했습니다.";
+    else if (score >= 0 && score <= 19) response = "끔찍한 점수입니다. -- 완전한 실패입니다!";
+    else if (score >= 20 && score <= 39) response = "조금 알긴 하지만 꽤 나쁜 점수입니다.발전이 필요합니다.";
+    else if (score >= 40 && score <= 69) response = "그런대로 잘 하셨네요, 나쁘지 않습니다!";
+    else if (score >= 70 && score <= 89) response = "훌륭한 점수입니다, 정말로 잘 아시는군요.";
+    else if (score >= 90 && score <= 100) response = "놀라운 점수입니다! 커닝하셨나요? 진짜인가요?";
+
+    machineActive = true;
+    // Don't edit the code below here!
+
+    const section = document.querySelector('section');
+
+    let para1 = document.createElement('p');
+    let para2 = document.createElement('p');
+
+    para1.textContent = `Your score is ${ score }`;
+    para2.textContent = response;
+
+    section.appendChild(para1);
+    section.appendChild(para2);
+    
+  </script>
+
+</html>
