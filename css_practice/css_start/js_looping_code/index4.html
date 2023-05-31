@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Loops: Task 3</title>
+    <style>
+      p {
+        color: purple;
+        margin: 0.5em 0;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+    </style>
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+
+  <body>
+
+    <section class="preview">
+    </section>
+
+  </body>
+  <script>
+
+    let i = 500;
+    const para = document.createElement('p');
+
+    //     num : 2 ~ 500, num++
+    // ex) num 2 true
+    //         3 true
+    //         4 false
+    //         5 true
+    //         6 false
+    function isPrime(num) {                 // input num
+      for(let i = 2; i < num; i++) {        // num까지 루프 
+        if(num % i === 0) {                 // 소수 아니면 return false
+          return false;
+        }
+      }                              
+      return true;                          // true: loop 도는 동안 false 있으면 안됨
+    }
+
+    // Add your code here
+    for (let index = 2; index < i; index++) // isPrime()가 true면 출력
+    {
+        if (isPrime(index) === true)
+        {
+            para.textContent +=  index+", "
+        }
+    }
+    // Don't edit the code below here!
+    const section = document.querySelector('section');
+    section.appendChild(para);
+
+  </script>
+
+</html>
