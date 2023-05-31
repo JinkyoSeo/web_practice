@@ -1,20 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
- 
+
 </head>
+
 <body>
-    <div >
-    </div>
-    <script>
-       const p1 = document.createElement("p");
-        p1.textContent = "p1입니다.";
-        document.querySelector("div").append(p1);
-        
-    </script>
+  <input id="textBox" type="text" />
+  <div id="output"></div>
+
+  <script>
+    const textBox = document.querySelector("#textBox");
+    const output = document.querySelector("#output");
+
+    textBox.addEventListener("keydown", (event) => {
+      output.textContent = `You pressed "${event.key}".`;
+    });
+
+  </script>
 </body>
+
 </html>
