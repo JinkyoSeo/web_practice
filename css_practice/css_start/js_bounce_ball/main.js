@@ -1,4 +1,5 @@
 // set up canvas
+
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 
@@ -6,29 +7,38 @@ const width = canvas.width = window.innerWidth;
 const height = canvas.height = window.innerHeight;
 
 // function to generate random number
+
 function random(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 // function to generate random RGB color value
+
 function randomRGB() {
   return `rgb(${random(0, 255)},${random(0, 255)},${random(0, 255)})`;
 }
 
-// 볼 생성 정보, 그리기, 업데이트(움직임), 파괴
-class Ball {
-   // 생성자
-   // 공 위치, 공 속도, 색상, 사이즈
-   constructor(x, y, velX, velY, color, size) {
+// 최상위 클래스로 Shape 생성
+class Shape{
+   constructor(x, y, velX, velY){
       this.x = x;
       this.y = y;
       this.velX = velX;
       this.velY = velY;
+   }
+}
+
+// Shape에서 상속받음
+// boolean exists 추가
+class Ball extends Shape{
+
+   constructor(x, y, velX, velY, color, size) {
+      super(x, y, velX, velY);
       this.color = color;
       this.size = size;
+      this.exists = true;
    }
 
-   // 공 그리기.
    draw() {
       ctx.beginPath();
       ctx.fillStyle = this.color;
@@ -36,71 +46,121 @@ class Ball {
       ctx.fill();
    }
 
-   // 업데이트 -> 공 움직임 갱신
    update() {
-      // 공의 x와 size가 >= canvas.width 인 경우
-      // x.속도 음수? -> 튕겨서 반대로
       if ((this.x + this.size) >= width) {
-         this.velX = -(Math.abs(this.velX)); // Math.abs() -> 절대값 return
+         this.velX = -(Math.abs(this.velX));
       }
-      // 공의 x와 size가 <= 0 인 경우
-      // x.속도 양수? -> 튕겨서 반대로
+
       if ((this.x - this.size) <= 0) {
          this.velX = Math.abs(this.velX);
       }
-      // 위 x.속도와 같은 개념
+
       if ((this.y + this.size) >= height) {
          this.velY = -(Math.abs(this.velY));
       }
-      // 위 x.속도와 같은 개념
+
       if ((this.y - this.size) <= 0) {
          this.velY = Math.abs(this.velY);
       }
 
-      // 공의 위치에 속도값 추가
       this.x += this.velX;
       this.y += this.velY;
-
-      // 그럼 업데이트 주기는 어떻게?
-      // requestAnimationFrame() 메소드를 사용
    }
 
-   // 공 파괴
    collisionDetect() {
       for (const ball of balls) {
-         // 현재 ball 객체와 배열의 ball이 다른 경우
-         if (!(this === ball)) {
-            // 공 사이의 거리
+         if (!(this === ball) && ball.exists) {
             const dx = this.x - ball.x;
             const dy = this.y - ball.y;
-            const distance = Math.sqrt(dx * dx + dy * dy); // Math.sqrt(x) = x의 제곱근
-            // 공이 맞닿은 경우 (공이 접한 경우의 크기보다 거리가 작은 경우)
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
             if (distance < this.size + ball.size) {
-               // 두 공의 색이 랜덤으로 변함
               ball.color = this.color = randomRGB();
+            }
+         }
+      }
+   }
+
+}
+
+class EvilCircle extends Shape{
+   constructor(){
+      super(x, y, 20, 20);
+      this.color = 'white';
+      this.size = 10;
+
+      window.addEventListener("keydown", (e) => {
+         switch (e.key) {
+           case "a":
+             this.x -= this.velX;
+             break;
+           case "d":
+             this.x += this.velX;
+             break;
+           case "w":
+             this.y -= this.velY;
+             break;
+           case "s":
+             this.y += this.velY;
+             break;
+         }
+       });
+   }
+
+   draw() {
+      ctx.beginPath();
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = this.color;
+      ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
+      ctx.stroke();
+   }
+
+   checkBounds() {
+      if ((this.x + this.size) >= width) {
+         this.x = width - this.size;
+      }
+
+      if ((this.x - this.size) <= 0) {
+         this.x = size;
+      }
+
+      if ((this.y + this.size) >= height) {
+         this.y = this.size;
+      }
+
+      if ((this.y - this.size) <= 0) {
+         this.y = this.height - this.size;
+      }
+   }
+
+   collisionDetect() {
+      for (let i = 0; i < balls.length; i++) {
+         if (!balls[i].exists) {
+            // 존재 안하면 -> 이미 먹힘 지움
+            balls.splice(i, 1);
+            if (distance < this.size + ball.size) {
+              balls[i].exists = false;
             }
          }
       }
    }
 }
 
-// ball 배열
-const balls = [];
 
-// 공 25개까지 생성
+const balls = [];
+const evilCircle = new EvilCircle();
+
 while (balls.length < 25) {
-   // 공 사이즈 랜덤
    const size = random(10,20);
-   // 공 객체 생성
    const ball = new Ball(
       // ball position always drawn at least one ball width
       // away from the edge of the canvas, to avoid drawing errors
-      random(0 + size,width - size),  // x
-      random(0 + size,height - size), // y
-      random(-7,7),                   // velX
-      random(-7,7),                   // velY
-      randomRGB(),                    // color
-      size                            // size
+      random(0 + size,width - size),
+      random(0 + size,height - size),
+      random(-7,7),
+      random(-7,7),
+      randomRGB(),
+      size
    );
 
   balls.push(ball);
@@ -114,7 +174,15 @@ function loop() {
      ball.draw();
      ball.update();
      ball.collisionDetect();
+
+     
    }
+
+   evilCircle.draw();
+   evilCircle.checkBounds();
+   evilCircle.collisionDetect();
+
+   
 
    requestAnimationFrame(loop);
 }
