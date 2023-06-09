@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>super_example</title>
+  </head>
+
+  <body>
+  </body>
+  <script>
+    class Polygon {
+        constructor(height, width) {
+            this.name = 'Polygon';
+            this.height = height;
+            this.width = width;
+        }
+        sayName() {
+            console.log('Hi. I am a ', this.name + '.');
+        }
+    }
+
+    class Square extends Polygon {
+        constructor(length) {
+            // this.height; // ->  // 참조 오류 발생 -> super가 우선이어야 함
+            super(length, length); // 부모클래스의 생성자 함수를 호출하여 높이 값 넘겨줌
+                                   // Polygon의 길이와 높이를 넘겨줌
+                                   
+            this.name = 'Square';  // 파생 클래스에서 super() 함수가 먼저 호출 되야
+                                   // 'this' 키워드 사용 가능
+        }
+
+        get area() {
+            return this.height * this.width;
+        }
+
+        set area(value) {
+            this.area = value;
+        }
+    }
+
+    const polygon = new Polygon(10,20);
+    console.log(polygon.height);
+    const square = new Square(30);
+    console.log(square.height);
+    console.log(square.width);
+    console.log(square.length);
+  </script>
+
+</html>
