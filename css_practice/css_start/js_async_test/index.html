@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Sequencing animations</title>
+    <link href="style.css"rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div>
+    </div>
+
+    <script>
+        function Cry(){
+            console.log("cry");
+        }
+        function Sing(){
+            console.log("sing");
+        }
+        function Dance(){
+            console.log("dance");
+        }
+
+        function CheckMood(mood)
+        {
+            if (mood === "good") Sing();
+            else Cry();
+        }
+        
+        // CheckMood("good");
+        // CheckMood("sad");
+
+        function CheckMoodCallBack(mood, goodCallback, badCallback){
+          if (mood === "good"){
+            goodCallback();
+          }
+          else {
+            badCallback();
+          }
+        }
+
+        CheckMoodCallBack("good", Dance, Cry);
+        CheckMoodCallBack("Not bad", Dance, Sing);
+    </script>
+  </body>
+
+</html>
+3

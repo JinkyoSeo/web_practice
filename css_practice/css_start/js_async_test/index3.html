@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Sequencing animations</title>
+    <link href="style.css"rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div>
+    </div>
+    <script>
+      function goToSchool() {
+        console.log("학교 가즈아아");
+      }
+      function arriveAtSchool_asis() {
+        setTimeout(function() {
+          console.log("도츠악");
+        } , 500);
+      }
+      function study() {
+        console.log("공부 가즈아아");
+      }
+     
+      //// ##1## 2번째 함수에 딜레이가 있어 순차적 진행 못함
+      // goToSchool();
+      // arriveAtSchool_asis();
+      // study();
+
+      //// ##2## Promise 사용
+      // function arriveAtSchool_tobe() {
+      //   return new Promise(function(resolve) {
+      //     setTimeout(function() {
+      //       console.log("도츠악!!!");
+      //       resolve();
+      //     }, 1000);
+      //   });
+      // }
+
+      // Promise 사용하여 순차적으로 성공
+      // goToSchool();
+      // arriveAtSchool_tobe().then(function() {
+      //   study();
+      // })
+
+      //// ##3## 오류 발생 가능성이 있는 경우
+      function arriveAtSchool_tobe_adv(){
+        return new Promise(function(resolve, reject)
+        {
+          setTimeout(function() {
+            var status = Math.floor(Math.random()*2);
+            if(status === 1)
+            resolve("도츠아아악");
+            else reject("중간에 넘어짐 ㅠ");
+          }, 1000);
+        });
+      }
+
+      function cure() {
+        console.log("치료 가즈아");
+      }
+
+      goToSchool();
+      arriveAtSchool_tobe_adv()
+      .then(function(res){
+        console.log(res);
+        study();
+      })
+      .catch(function(err){
+        console.log(err);
+        cure();
+      });
+
+    </script>
+  </body>
+
+</html>

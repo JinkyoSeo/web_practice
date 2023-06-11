@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Sequencing animations</title>
+    <link href="style.css"rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div>
+    </div>
+
+    <script>
+        function taskA(a, b, cb){
+            setTimeout(() => {
+                const res = a + b;
+                cb(res);
+                console.log("checkA");
+            }, 500);
+        }
+
+        function taskB(a, cb) {
+            setTimeout(() => {
+                const res = a * 2;
+                cb(res);
+                console.log("checkB");
+            }, 500);
+        }
+
+        taskA(2, 3, (res_a) => {
+            let c = 10;
+            taskB(res_a, (res_b) => {
+                console.log(res_b);
+            })
+        })
+        
+
+        // function taskC(a, cb) {
+        //     setTimeout(() => {
+        //         const res = a * -1;
+        //         cb(res);
+        //     }, 500);
+        // }
+
+        // taskA(1, 2, (res_a) => {
+        //     console.log("check1");
+        //     taskB(res_a, (res_b) => {
+        //         console.log("check2");
+        //         taskC(res_b, (res_c) => {
+        //             console.log("check3");
+        //             console.log("taskC Result : ", res_c);
+        //         });
+        //     });
+        // });
+
+     
+    </script>
+  </body>
+
+</html>
+3
