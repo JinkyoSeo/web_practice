@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple DOM example</title>
@@ -13,13 +14,15 @@
             text-align: center;
         }
     </style>
-  </head>
-  <body>
-      <section>
-        <img src="dinosaur.png" alt="A red Tyrannosaurus Rex: A two legged dinosaur standing upright like a human, with small arms, and a large head with lots of sharp teeth.">
+</head>
+
+<body>
+    <section>
+        <img src="dinosaur.png"
+            alt="A red Tyrannosaurus Rex: A two legged dinosaur standing upright like a human, with small arms, and a large head with lots of sharp teeth.">
         <p>Here we will add a link to the <a></a></p>
-      </section>
-      <script>
+    </section>
+    <script>
         /// "a"에 href와 text 넣기
         const link = document.querySelector("a");
         link.textContent = "Mozilla Developer Network";
@@ -30,7 +33,7 @@
         const para = document.createElement("p");
         para.textContent = "We hope you enjoyed the ride.";
         sect.appendChild(para);
-        
+
         /// "p" 요소에 새로운 텍스트 추가.
         const text = document.createTextNode(" - the premier source for web development knowledge.");
         const linkPara = document.querySelector("p");
@@ -38,21 +41,20 @@
 
         sect.appendChild(linkPara);
 
-       /// 제거 
+        /// 제거 
         sect.removeChild(linkPara);
         linkPara.remove();
 
-       /// style1 -> js에 직접 작성
-       // para.style.color = "white";
-       // para.style.backgroundColor = "black";
-       // para.style.padding = "10px";
-       // para.style.width = "250px";
-       // para.style.textAlign = "center";
+        /// style1 -> js에 직접 작성
+        // para.style.color = "white";
+        // para.style.backgroundColor = "black";
+        // para.style.padding = "10px";
+        // para.style.width = "250px";
+        // para.style.textAlign = "center";
 
-       /// style2 -> head에 style로 작성
-       para.setAttribute("class", "highlight");
-       
+        /// style2 -> head에 style로 작성
+        para.setAttribute("class", "highlight");
+    </script>
+</body>
 
-      </script>
-  </body>
 </html>
