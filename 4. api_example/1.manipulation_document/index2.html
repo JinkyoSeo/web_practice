@@ -6,13 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shopping list example</title>
   <style>
+    div{
+      display: flex;
+    }
     li {
       margin-bottom: 10px;
     }
 
     li button {
       font-size: 8px;
-      margin-left: 20px;
+      margin: 20px;
+
       color: #666;
     }
   </style>
@@ -28,47 +32,43 @@
     <button id="btn">Add item</button>
   </div>
 
-  <ul>
+  <ul id="todo-list">
 
   </ul>
 
   <script>
-    let inputBox = document.getElementById("item"); // 입력 박스
-    let addBtn = document.getElementById("btn");    // 버튼
-    let toDoList = document.querySelector("ul");    // 리스트 박스
+    const input = document.querySelector("#item");           // 입력창
+    const addButton = document.querySelector("#btn");        // 추가 버튼
+    const todoList = document.querySelector("#todo-list");   // 리스트 ul
+    
 
-    function handleClick() {
-      var item = document.createElement('div');
-      var list = document.createElement('li');             // 리스트 생성
-      var deleteButton = document.createElement('button'); /// 리스트 삭제 버튼
-      deleteButton.textContent = '삭제하기';
+    const addTodo = () =>{                                   /// 리스트 추가 함수
+      const item_list = document.createElement('li');        // item_list : ul 안 li
+      const item = document.createElement('div');            // item : li 안에 넣을 div
+      //item.style.background = "green";                     // div : text + button
 
-      if (!inputBox.value) {                      /// 입력값이 없는 경우
-        alert("내용 입력좀 ^오^b");
+      const text = document.createElement('h2');             // text : h2로 생성 -> list 내용
+      const deleteButton = document.createElement('button'); // 제거 버튼
+      deleteButton.textContent = "제거하기";
 
-      }
-      else {      
-        list.innerText = inputBox.value;                                /// 입력값이 있는 경우
-        item.appendChild(list);
-        item.appendChild(deleteButton);
-                  // 입력값 리스트에 넣기   
-        //toDoList.appendChild(item);               // 리스트 박스에 리스트 넣기
-        inputBox.value = "";                      // 입력 끝나면 입력박스 비우기
-      }
+      text.textContent = input.value;                        // input내용 -> text
+      input.value = '';                                      // 입력후 입령창 비우기
+      
+      item.appendChild(text);                                // item에 text 랑 deletebutton 넣고
+      item.appendChild(deleteButton);
+      item_list.appendChild(item);                           // item_list에 그 item을 넣고
+      todoList.appendChild(item_list);                       // 최종 todoList에 item_list 넣기
 
-      list.addEventListener('click', function () {    /// 리스트 값 클릭 하면 -> 줄 긋기
-        list.style.textDecoration = "line-through"; 
-      })
-      deleteButton.addEventListener('click', function () { /// 리스트 값 더블클릭 -> 삭제
-        toDoList.removeChild(list);
-      })
+
+      deleteButton.addEventListener('click', (event) => {    /// 지울때 -> 이벤트 객체는 deletebutton
+                                                             //    지워져야 하는건 해당 리스트(item_list)이므로 -> 
+                                                             //    event.currentTarget.parentNode.parentNode
+                                                             //           deleteButton. item(div).  item_list(li)
+        todoList.removeChild(event.currentTarget.parentNode.parentNode);
+      });
     }
 
-    document.getElementById("btn").addEventListener('click', handleClick); // 추가 버튼 누르면 handleClick 작동
-
-
-
-
+    addButton.addEventListener('click', addTodo);
   </script>
 </body>
 
