@@ -1,37 +1,75 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping list example</title>
-    <style>
-      li {
-        margin-bottom: 10px;
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping list example</title>
+  <style>
+    li {
+      margin-bottom: 10px;
+    }
+
+    li button {
+      font-size: 8px;
+      margin-left: 20px;
+      color: #666;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>My shopping list</h1>
+
+  <div>
+    <label for="item">Enter a new item:</label>
+    <input type="text" name="item" id="item">
+    <button id="btn">Add item</button>
+  </div>
+
+  <ul>
+
+  </ul>
+
+  <script>
+    let inputBox = document.getElementById("item"); // 입력 박스
+    let addBtn = document.getElementById("btn");    // 버튼
+    let toDoList = document.querySelector("ul");    // 리스트 박스
+
+    function handleClick() {
+      var item = document.createElement('div');
+      var list = document.createElement('li');             // 리스트 생성
+      var deleteButton = document.createElement('button'); /// 리스트 삭제 버튼
+      deleteButton.textContent = '삭제하기';
+
+      if (!inputBox.value) {                      /// 입력값이 없는 경우
+        alert("내용 입력좀 ^오^b");
+
+      }
+      else {      
+        list.innerText = inputBox.value;                                /// 입력값이 있는 경우
+        item.appendChild(list);
+        item.appendChild(deleteButton);
+                  // 입력값 리스트에 넣기   
+        //toDoList.appendChild(item);               // 리스트 박스에 리스트 넣기
+        inputBox.value = "";                      // 입력 끝나면 입력박스 비우기
       }
 
-      li button {
-        font-size: 8px;
-        margin-left: 20px;
-        color: #666;
-      }
-    </style>
-  </head>
-  <body>
+      list.addEventListener('click', function () {    /// 리스트 값 클릭 하면 -> 줄 긋기
+        list.style.textDecoration = "line-through"; 
+      })
+      deleteButton.addEventListener('click', function () { /// 리스트 값 더블클릭 -> 삭제
+        toDoList.removeChild(list);
+      })
+    }
 
-    <h1>My shopping list</h1>
+    document.getElementById("btn").addEventListener('click', handleClick); // 추가 버튼 누르면 handleClick 작동
 
-    <div>
-      <label for="item">Enter a new item:</label>
-      <input type="text" name="item" id="item">
-      <button>Add item</button>
-    </div>
 
-    <ul>
 
-    </ul>
 
-    <script>
+  </script>
+</body>
 
-    </script>
-  </body>
 </html>
