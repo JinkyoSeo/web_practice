@@ -1,6 +1,14 @@
+body {
+    margin: 0;
+}
+
+div {
+    box-sizing: border-box;
+}
+
 .main-background {
     width: 100%;
-    height: 700px;
+    height: 500px;
     background-image: url(./sample.jpg);
     background-size: cover;
     background-repeat: no-repeat;
@@ -51,20 +59,109 @@ button {
 .desc-box {
     width: 60%;
     box-sizing: border-box;
-    height: 300px;
+    height: 200px;
     background-color: white;
     padding: 0 10px;
-    position: absolute;
+    position: relative;
     left: 0px;
     right: 0px;
     margin: auto;
-    bottom: -100px;
     filter: brightness(90%);
     text-align: center;
+    bottom: 100px;
 }
 
 .desc-title {
     font-size: 20px;
     margin-top: 20px;
     margin-bottom: 0px;
+}
+
+form {
+    width: 300px;
+    height: 380px;
+    position: relative;
+    margin-bottom: 100px;
+    padding: 50px;
+    bottom: 80px;
+    border: 1px solid black;
+
+    left: 0px;
+    right: 0px;
+    margin: auto;
+}
+
+form h4 {
+    font-size: 25px;
+    margin: 0px;
+}
+
+form h5 {
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+
+input {
+    padding: 0px 10px;
+    box-sizing: border-box;
+}
+
+.form-email input{
+    width: 300px;
+    height: 30px;
+}
+
+.form-name {
+    display: flex;
+    width: 300px;
+    justify-content: space-between;
+   
+}
+
+.form-name input {
+    box-sizing: border-box;
+    width: 140px;
+    height: 30px;
+}
+
+.form-name div{
+    float: left;
+}
+
+.form-message input[type=text]{
+    clear: both;
+    box-sizing: border-box;
+    width: 300px;
+    height: 100px;
+}
+
+.form-check-send {
+    width: 300px;
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    font-size: 10px;
+}
+
+.form-check input[type=checkbox] {
+    float:left;
+    height: 20px;
+    width: 20px;
+}
+
+.form-check p {
+    float:left;
+    height: 30px;
+    font-size: 13px;
+    margin: 0px 0px 0px 5px;
+    padding-top: 3px;
+}
+
+.form-check-send input[type=button]{
+    background-color: orange;
+    border-color: orange;
+    color: white;
+    width: 60px;
+    height: 30px;
 }
