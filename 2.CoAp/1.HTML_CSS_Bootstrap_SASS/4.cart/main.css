@@ -1,0 +1,58 @@
+div {
+    box-sizing: border-box;
+}
+
+caption {
+    text-align: left;
+    background-color: white;
+}
+
+td, th {
+    border: 2px solid #B2CCD6;
+    text-align: center;
+    border-left: none;
+    border-right: none;
+    padding: 10px;
+}
+
+td:nth-child(3) {
+    text-align: right;
+}
+
+.main-background {
+    background-color: #B2CCD6;
+    padding: 30px;
+    display: inline-block; 
+}
+
+.main-outlayer {
+    background-color: #B2CCD6;
+}
+
+table {
+    background-color: white;
+    max-width: 600px;
+    border-collapse: collapse;
+    border-radius: 10px;
+}
+
+img {
+    width: 70px;
+    height: 90px;
+}
+
+
+.edit-cart-link {
+    color: #133761;
+    font-size: 12px;
+    float: left;
+    margin-top: 10px;    
+}
+
+.pay-btn {
+    background-color: #133761;
+    color: white;
+    float: left;
+    border-radius: 5px;
+    margin-top: 10px;
+}

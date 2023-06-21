@@ -116,7 +116,6 @@ button {
 
 .check-sub {
 float: left;
-margin-right: auto;
 }
 
 .yellow-button {
@@ -126,10 +125,5 @@ margin-right: auto;
     padding:0;
     border:0;
     float: left;
-    /* 
-    border: 1px solid black;
-    margin: 0;
-   
-    float: left; */
 }
 
