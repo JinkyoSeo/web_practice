@@ -1,0 +1,23 @@
+.cart-background {
+    width: 100%;
+    background-color: #c2d3de;
+    padding: 30px;
+}
+
+.cart-table {
+    width: 100%;
+    max-width: 700px;
+    margin: auto; /*가운데 정렬 */
+    background-color: white;
+    border-radius: 10px;
+    border-collapse: collapse;
+}
+
+.cart-table td, .cart-table th {
+    padding: 15px;
+    border-bottom: 1px solid #c2d3de;
+}
+
+.cart-table th:nth-child(2) {
+    width: 400px;
+}
