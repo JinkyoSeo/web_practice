@@ -1,0 +1,26 @@
+
+.main-btn {
+    padding: 15px;
+    border: none;
+    cursor: pointer;
+}
+
+.bg-red {
+    background-color: red;
+}
+
+.bg-blue {
+    background-color: blue;
+}
+
+.f-small {
+    font-size: 12px;
+}
+
+.f-mid {
+    font-size: 16px;
+}
+
+.f-large {
+    font-size: 20px;
+}
