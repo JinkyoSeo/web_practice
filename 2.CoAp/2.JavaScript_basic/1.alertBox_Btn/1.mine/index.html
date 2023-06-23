@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <div class="alert-box" id="test">알림창임 <button class="none-btn" onclick = AlertStatus(none)>닫기</button></div>
+
+    <button id="btn" style="background-color: red;" onclick=BtnSignIn(1)>버튼1</button>
+    <button id="btn" style="background-color: blue;" onclick=BtnSignIn(2)>버튼2</button>
+</body>
+<script>
+    function BtnSignIn(num){
+        if (num == 1) 
+        {
+            document.getElementById("test").innerHTML = "아이디 입력";
+            document.getElementById("test").style.display = 'block';
+
+        }
+        else
+        {
+            document.getElementById("test").innerHTML = "비번";
+            document.getElementById("test").style.display = 'block';
+        }
+        
+    }
+</script>
+</html>

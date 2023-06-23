@@ -1,0 +1,18 @@
+.alert-box {
+    background-color: coral;
+    padding: 20px;
+    color: white;
+    border-radius: 5px;
+    display: none;
+    margin-bottom: 5px;
+}
+
+.block-btn {
+    background-color: red;
+    color: white;    
+}
+
+.none-btn {
+    color: grey;
+    
+}
