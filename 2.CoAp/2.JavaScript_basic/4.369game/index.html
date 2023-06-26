@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function game369(num) {
+            if ((num % 9) == 0) console.log('박수 박수')
+            else if ((num % 3) == 0) console.log('박수');
+            else console.log('통과');
+        }
+        // game369(6);
+        // game369(9);
+        // game369(11);
+
+        function realGame369(num){
+            var n = num;
+            var str = n.toString();
+            var lastChar = str[str.length - 1];
+            if ( lastChar == '3' || lastChar == '6' || lastChar == '9' ) console.log('박수');
+            else console.log('통과');
+        }
+
+        // realGame369(16);
+        
+
+        function passIsReal(score1, score2){
+            // 개론, 민법
+            // 만점 100, 합 120이상이면 합격
+            // 단 40미만 있으면 안됨
+            if ((score1 < 40) || (score2 < 40)) console.log('failIsReal');
+            else if ((score1 + score2 >= 120)) console.log('successIsReal')
+            else console.log('faileIsReal');
+        }
+        // passIsReal(70, 70);
+        // passIsReal(30, 100);
+        // passIsReal(50, 50);
+
+        function realPassIsReal(score1, score2){
+            if ((score1 < 0 || score1 >100) || (score2 < 0 || score2 >100)) alert('장난 ㄴㄴ ㅡ ㅡ');
+            else if ((score1 < 40) || (score2 < 40)) console.log('failIsReal');
+            else if ((score1 + score2 >= 120)) console.log('successIsReal')
+            else console.log('faileIsReal');
+        }
+
+        // realPassIsReal(0, 1);
+    </script>
+</body>
+</html>
