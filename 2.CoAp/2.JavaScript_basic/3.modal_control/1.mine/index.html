@@ -20,7 +20,6 @@
     <div class="white-bg">
       <h4>로그인하세요</h4>
       <form action="success.html">
-        <form>
           <div class="my-3">
             <input type="text" class="form-control" id="email">
           </div>
@@ -36,7 +35,7 @@
   <script>
     // 모달창(로그인 창)
     // 전송 버튼 클릭
-    document.getElementById('send').addEventListener('click', function (e) {
+    document.querySelector('form').addEventListener('submit', function (e) {
       var passwordContent = document.getElementById('password').value;
       if (document.getElementById('email').value == '') {
         //$('#email').val
