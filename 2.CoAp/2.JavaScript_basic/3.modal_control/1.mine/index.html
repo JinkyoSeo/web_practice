@@ -22,35 +22,37 @@
       <form action="success.html">
         <form>
           <div class="my-3">
-            <input id="email" type="text" class="form-control">
+            <input type="text" class="form-control" id="email">
           </div>
           <div class="my-3">
-            <input type="password" class="form-control">
+            <input type="password" class="form-control" id="password">
           </div>
-          <button id="send" type="submit" class="btn btn-primary">전송</button>
+          <button type="submit" class="btn btn-primary" id="send">전송</button>
           <button type="button" class="btn btn-danger" id="close">닫기</button>
         </form>
     </div>
   </div>
 
   <script>
-    var count;
-    var input_check = '';
-    var input = '';
-    document.getElementById('send').addEventListener('click', function () {
-      if (input === input_check) alert('아이디입력좀');
-      document.getElementById('email').value = '';
-    })
-
-    document.getElementById('email').addEventListener('input', function () {
-      // input에 다 저장
-      input = document.getElementById('email').value;
-      return input;
-    })
-
-
-   
-
+    // 모달창(로그인 창)
+    // 전송 버튼 클릭
+    document.getElementById('send').addEventListener('click', function (e) {
+      var passwordContent = document.getElementById('password').value;
+      if (document.getElementById('email').value == '') {
+        //$('#email').val
+        e.preventDefault();
+        alert('아이디 입력점');
+      }
+      else if (passwordContent == '') {
+        e.preventDefault();
+        alert('비번 입력점');
+      }
+      else if (passwordContent.length < 6) {
+        e.preventDefault();
+        alert('비번 6자 이상 입력좀');
+        console.log('why');
+      }
+    });
   </script>
 
   <script>
