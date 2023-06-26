@@ -14,7 +14,7 @@
 </head>
 
 
-<body class="dark">
+<body>
 
   <div class="black-bg">
     <div class="white-bg">
@@ -101,25 +101,23 @@
       console.log(count);
       if (count % 2 == 0){
         $('#screenMode').text('Dark 🔄');
-        
+
         $('.navbar').removeClass('navbar-dark');
         $('.navbar').removeClass('bg-dark');
         $('.main-bg').removeClass('dark');
+        $('.list-group-item').removeClass('dark');
 
-        $('.navbar').addClass('navbar-light');
-        $('.navbar').addClass('bg-light');
       }
         
       else {
         $('#screenMode').text('Light 🔄');
-        
-        $('.navbar').removeClass('navbar-light');
-        $('.navbar').removeClass('bg-light');
-        $('.main-bg').removeClass('dark');
 
+        $('.list-group-item').addClass('dark');
+        $('#screenMode').addClass('Light');
         $('.navbar').addClass('navbar-dark');
         $('.navbar').addClass('bg-dark');
         $('.main-bg').addClass('dark');
+
       }
     });
   </script>
