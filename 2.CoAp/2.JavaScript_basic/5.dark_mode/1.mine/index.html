@@ -14,7 +14,7 @@
 </head>
 
 
-<body>
+<body class="dark">
 
   <div class="black-bg">
     <div class="white-bg">
@@ -80,6 +80,7 @@
   </ul>
 
   <script>
+
     // navigation bar 내리기
     document.querySelector('.navbar-toggler').addEventListener('click', function () {
       //  document.querySelector('.list-group').classList.toggle('show');
@@ -98,9 +99,28 @@
     $('.badge').on('click', function () {
       count += 1;
       console.log(count);
-      if (count % 2 == 0)
+      if (count % 2 == 0){
         $('#screenMode').text('Dark 🔄');
-      else $('#screenMode').text('Light 🔄');
+        
+        $('.navbar').removeClass('navbar-dark');
+        $('.navbar').removeClass('bg-dark');
+        $('.main-bg').removeClass('dark');
+
+        $('.navbar').addClass('navbar-light');
+        $('.navbar').addClass('bg-light');
+      }
+        
+      else {
+        $('#screenMode').text('Light 🔄');
+        
+        $('.navbar').removeClass('navbar-light');
+        $('.navbar').removeClass('bg-light');
+        $('.main-bg').removeClass('dark');
+
+        $('.navbar').addClass('navbar-dark');
+        $('.navbar').addClass('bg-dark');
+        $('.main-bg').addClass('dark');
+      }
     });
   </script>
 
