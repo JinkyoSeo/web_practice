@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <p>태조 이성계가 태어난 년도는?</p>
+    <input type="text" id="answer">
+    <button id="send-answer">제출</button>
+
+    <script>
+        //// 내 나이 -> 재할당 가능
+        //// 출신 -> 재할당 불가
+        // let age = '20';
+        // const place = 'seoul';
+
+
+        //// 어떤게 출력 될까?
+        var name = 'park';
+        var id = 0;
+
+        function showName() {
+            var name = 'kim';
+            var id = 1;
+            console.log(name);
+        }
+        // showName();       // 출력 'kim'
+        // console.log(id);  // 출력 0
+
+        //// 이율계산기
+        // 첫 예금이 5만 미만 이율 0.15
+        //     ..   5만 이상 이율 0.2
+        var m = 60000; // 현금액
+        var mm = 0;    // 미래금액
+        var num = 2;   // 년 횟수
+
+        function Cal1(num) {
+            for (let i = 0; i < num; i++) {
+                if (m < 50000) (m = m + (m * 0.15));
+                else if (m >= 50000) (m = m + (m * 0.2));
+            }
+            mm = m;
+            return console.log(mm);
+        }
+
+        //Cal1(num);
+
+        //// 커피 리필 계산
+        // 방금 마신 커피의 3분의 2만큼 2번 리필가능
+        // 최대는?
+        var first = 360;
+        var total = first;
+
+        function Cal2(first) {
+
+            for (let i = 0; i < 2; i++) {
+                first = first * (2 / 3)
+                total += first;
+            }
+            return console.log(total);
+
+        }
+
+        //Cal2(first);
+
+        //// 간단한 퀴즈 UI / 이성계가 태어난 년도는?
+
+        var count = 0;
+        document.querySelector('#send-answer').addEventListener('click', function (){
+            count++;
+            
+            if (document.querySelector('#answer').value == 1335) alert('성공');
+            else if (count >= 3) {
+                alert('멍청스');
+                count = 0;
+            }
+        });
+
+    </script>
+</body>
+
+</html>
