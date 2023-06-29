@@ -159,6 +159,8 @@
     </div>
   </div>
 
+  <button class="prev">이전</button>
+
   <button class="slide-1">1</button>
   <button class="slide-2">2</button>
   <button class="slide-3">3</button>
@@ -193,6 +195,21 @@
       else if (curBox == 3) {
         $('.slide-container').css('transform', 'translateX(0vw)');
         curBox = 1;
+      }
+    });
+
+    $('.prev').on('click', function(){
+      if (curBox == 1) {
+        $('.slide-container').css('transform', 'translateX(-200vw)');
+        curBox = 3;
+      }
+      else if (curBox == 2) {
+        $('.slide-container').css('transform', 'translateX(0vw)');
+        curBox--;
+      }
+      else if (curBox == 3) {
+        $('.slide-container').css('transform', 'translateX(-100vw)');
+        curBox--;
       }
     });
 
