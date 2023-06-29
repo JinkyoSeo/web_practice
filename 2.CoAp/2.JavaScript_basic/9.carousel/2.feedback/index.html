@@ -181,38 +181,19 @@
     });
 
     // 다음버튼
-    var curBox = 1;
+    var curBox = 0;
     
     $('.next').on('click', function(){
-      if (curBox == 1) {
-        $('.slide-container').css('transform', 'translateX(-100vw)');
+      if (curBox == 3) curBox = 0;
+        $('.slide-container').css('transform', `translateX(-${curBox}00vw)`);
         curBox++;
-      }
-      else if (curBox == 2) {
-        $('.slide-container').css('transform', 'translateX(-200vw)');
-        curBox++;
-      }
-      else if (curBox == 3) {
-        $('.slide-container').css('transform', 'translateX(0vw)');
-        curBox = 1;
-      }
     });
 
     $('.prev').on('click', function(){
-      if (curBox == 1) {
-        $('.slide-container').css('transform', 'translateX(-200vw)');
-        curBox = 3;
-      }
-      else if (curBox == 2) {
-        $('.slide-container').css('transform', 'translateX(0vw)');
+      if (curBox == -1) curBox = 2;
+        $('.slide-container').css('transform', `translateX(-${curBox}00vw)`);
         curBox--;
-      }
-      else if (curBox == 3) {
-        $('.slide-container').css('transform', 'translateX(-100vw)');
-        curBox--;
-      }
     });
-
 
     
   </script>
