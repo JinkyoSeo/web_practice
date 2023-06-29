@@ -145,6 +145,63 @@
     //
   </script>
 
+  <div style="overflow: hidden">
+    <div class="slide-container">
+      <div class="slide-box">
+        <img src="car1.png">
+      </div>
+      <div class="slide-box">
+        <img src="car2.png">
+      </div>
+      <div class="slide-box">
+        <img src="car3.png">
+      </div>
+    </div>
+  </div>
+
+  <button class="slide-1">1</button>
+  <button class="slide-2">2</button>
+  <button class="slide-3">3</button>
+
+  <button class="next">다음</button>
+
+  <script> // carousel
+  // 각 포지션 값 
+      const position1 = 'matrix(1, 0, 0, 1, 0, 0)';
+      const position2 = 'matrix(1, 0, 0, 1, -438.857, 0)';
+      const position3 = 'matrix(1, 0, 0, 1, -877.714, 0)';
+      // 번호 버튼 누르면 각 번호 박스로 이동
+    $('.slide-1').on('click', function () {
+      $('.slide-container').css('transform', 'translateX(0vw)');
+    });
+    $('.slide-2').on('click', function () {
+      $('.slide-container').css('transform', 'translateX(-100vw)');
+    });
+    $('.slide-3').on('click', function () {
+      $('.slide-container').css('transform', 'translateX(-200vw)');
+    });
+
+    // 다음 버튼
+    // 처음 시작했을 때 1번째 박스
+    // 처음 시작하면 matrix값이 없고 'none' 값임
+    $('.next').on('click', function () {
+    if ($('.slide-container').css('transform') == 'none'){
+      $('.slide-container').css('transform', 'translateX(-100vw)');
+    }
+    // 일반적인 현재 1번쨰 박스인 경우
+    else if (position1 == $('.slide-container').css('transform')){
+      $('.slide-container').css('transform', 'translateX(-100vw)');
+    }
+    // 일반적인 현재 2번쨰 박스인 경우
+    else if (position2 == $('.slide-container').css('transform')){
+      $('.slide-container').css('transform', 'translateX(-200vw)');
+    }
+    // 일반적인 현재 3번쨰 박스인 경우
+    else if (position3 == $('.slide-container').css('transform')) {
+      $('.slide-container').css('transform', 'translateX(0vw)');
+    }
+    });
+  </script>
 </body>
 
 </html>
