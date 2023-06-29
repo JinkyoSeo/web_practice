@@ -182,20 +182,21 @@
 
     // 다음버튼
     var curBox = 0;
-    
-    $('.next').on('click', function(){
+
+    $('.next').on('click', function () {
+      curBox++;
       if (curBox == 3) curBox = 0;
-        $('.slide-container').css('transform', `translateX(-${curBox}00vw)`);
-        curBox++;
+      $('.slide-container').css('transform', `translateX(-${curBox}00vw)`);
+      
     });
 
-    $('.prev').on('click', function(){
+    $('.prev').on('click', function () {
+      curBox--;
       if (curBox == -1) curBox = 2;
-        $('.slide-container').css('transform', `translateX(-${curBox}00vw)`);
-        curBox--;
+      $('.slide-container').css('transform', `translateX(-${curBox}00vw)`);
     });
 
-    
+
   </script>
 </body>
 
