@@ -73,9 +73,21 @@
   position: fixed;
   width: 100%;
   z-index : 5;
+  padding: 0;
 }
 
 .navbar-brand {
   font-size : 30px;
+  transition: all 1s;;
+}
+
+.scrollPercent {
+  position: fixed;
+  width: 0%;
+  height: 3px;
+  background-color: black;
+  z-index : 5;
+  position: relative;
+  align-items: end;
   transition: all 1s;
 }

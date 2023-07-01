@@ -78,6 +78,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
     </div>
+    <div class="scrollPercent"></div>
   </nav>
   <ul class="list-group">
     <li class="list-group-item">An item</li>
@@ -86,6 +87,7 @@
     <li class="list-group-item">A fourth item</li>
     <li class="list-group-item">And a fifth one</li>
   </ul>
+  
 
   <script>
 
@@ -211,19 +213,27 @@
       else{
         $('.navbar-brand').css('font-size', '30px');
       }
+      console.log(window.scrollY, document.body.scrollHeight);
+
+      var percent = window.scrollY / 3.29 ;
+      $('.scrollPercent').css('width', `${percent}%`);
     });
 
     // 약관 스크롤
     // div의 스크롤바 내린 양 + 눈에보이는 idv 높이 == div의 실제 높이
+    var scrollCheckOnce = false;
     $('.lorem').on('scroll', function(){
       var 스크롤양 = document.querySelector('.lorem').scrollTop;
       var 높이 = document.querySelector('.lorem').clientHeight;
       var 실제높이 = document.querySelector('.lorem').scrollHeight;
-      
-      if ((스크롤양 + 높이) >= (실제높이 - 5)){
+
+      if(!scrollCheckOnce){
+        if ((스크롤양 + 높이) >= (실제높이)){
         alert('스크롤 다내림');
+        scrollCheckOnce = true;
       }
-      console.log(스크롤양, 실제높이);
+      }
+
     })
   </script>
 </body>
