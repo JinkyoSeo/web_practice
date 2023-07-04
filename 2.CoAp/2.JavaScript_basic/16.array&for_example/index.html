@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <title>Hello, world!</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>
+        .form-hide {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        /// 배열과 같은 이름 찾기
+        var 출석부 = ['흥민', '영희', '철수', '재석'];
+
+        function 이름찾기(str) {
+            //여기다 코드 짜십쇼 
+            출석부.forEach(function (a, i) {
+                if (a == str) {
+                    console.log('있어요');
+                }
+            });
+        }
+        // 이름찾기('철수');
+        // 이름찾기('명수');
+
+        /// 구구단 결과만
+        for (let i = 2; i < 10; i++) {
+            for (let j = 1; j < 10; j++) {
+                // console.log(i*j);
+            }
+        }
+
+        /// 평균점수 계산기 만들기
+
+        function AverCal(ary, sco) {
+            var total = 0;
+            var aver = 0;
+            for (let i = 0; i < ary.length; i++) {
+                total += ary[i];
+            }
+            aver = total / ary.length;
+
+            if (aver < sco) console.log(`평균보다 ${sco - aver}점이 올랐네요.`);
+            else console.log(`평균보다 ${aver - sco}점이 떨어졌네요.`);
+        }
+
+        AverCal([10, 20, 30, 40, 50], 40);
+        AverCal([40, 40, 40], 20) ;
+    </script>
+</body>
+
+</html>
