@@ -76,20 +76,20 @@
 
     <script>
         // select 조종
+        var pants = [28, 30, 32]
         $('.form-select').eq(0).on('input', function () {
 
             var value = $('.form-select').eq(0).val();
             if (value == '셔츠') {
                 $('.form-select').eq(1).removeClass('form-hide');
-                $('.form-select').eq(1).html('');
-                var template = `<option value="95">95</option><option value="100">100</option>`;
-                $('.form-select').eq(1).append(template);
             }
             else if (value == '바지') {
                 $('.form-select').eq(1).removeClass('form-hide');
                 $('.form-select').eq(1).html('');
-                template = `<option value="28">28</option><option value="30">30</option>`;
-                $('.form-select').eq(1).append(template);
+                for (let i = 0; i < pants.length; i++){
+                    var template = `<option>${pants[i]}</option>`;
+                    $('.form-select').eq(1).append(template);
+                }
             }
         });
         // // html 생성1
