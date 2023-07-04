@@ -63,27 +63,47 @@
         <select class="form-select mt-2">
             <option value="모자">모자</option>
             <option value="셔츠">셔츠</option>
+            <option value="바지">바지</option>
         </select>
         <select class="form-select mt-2 form-hide">
-            <option value="95">95</option>
-            <option value="100">100</option>
+            
         </select>
     </form>
 
+    <div id="test">
+
+    </div>
+
     <script>
+        // select 조종
         $('.form-select').eq(0).on('input', function () {
+
             var value = $('.form-select').eq(0).val();
             if (value == '셔츠') {
-                $('.form-select.mt-2.form-hide').removeClass('form-hide');
-                console.log('checkif');
+                $('.form-select').eq(1).removeClass('form-hide');
+                $('.form-select').eq(1).html('');
+                var template = `<option value="95">95</option><option value="100">100</option>`;
+                $('.form-select').eq(1).append(template);
             }
-            else
-            {
-                $('.form-select.mt-2').eq(1).addClass('form-hide');
-                console.log('checkelse');
+            else if (value == '바지') {
+                $('.form-select').eq(1).removeClass('form-hide');
+                $('.form-select').eq(1).html('');
+                template = `<option value="28">28</option><option value="30">30</option>`;
+                $('.form-select').eq(1).append(template);
             }
         });
+        // // html 생성1
+        // var a = document.createElement('p');
+        // a.innerHTML = '안녕';
+        // document.querySelector('#test').appendChild(a);
 
+        // // html 생성2
+        // var a = '<p>잘가</p>';
+        // document.querySelector('#test').insertAdjacentHTML('beforeend', a);
+
+        // 바지 옵션 추가
+        // 바지 사이즈 28 30
+        // 데이터 갯수만큼 option 생성해주세요
     </script>
 </body>
 
