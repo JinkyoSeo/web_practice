@@ -26,34 +26,11 @@
     <div class="container" style="width: 100px; margin: 0 auto; ">
         <button class="btn btn-danger" id="more">더보기</button>
     </div>
+    <div class="container" style="width: 100px; margin: 10px auto; padding: 0; ">
+        <button class="btn btn-danger" id="price">가격 정렬</button>
+    </div>
 
     <script>
-        // // jquery를 이용한 Ajax
-        // $.get('https://codingapple1.github.io/price.json').done(function (data) {
-        //     console.log(data.price);
-        // })
-        //     .fail(function (error) {
-        //         console.log('실패');
-        //     });
-
-        // // 쌩자바를 이용한 Ajax
-        // fetch('https://codingapple1.github.io/price.json')
-        //     .then(res => res.json())        // 문자를 -> object로 변경
-        //     .then(function (data) {         // 서버는 문자만 주고받을수 있다. array, object 이런거 안됨
-        //         console.log(data.price)     // 그래서 json 형태로 문자열로 주고 받고 다시 원래 형태로 되돌리는 것
-        //     })
-        //     .catch(function (error) {
-        //         console.log('실패함')
-        //     });
-
-        // 1.mine
-        // for (let i = 0; i < 3; i++) {
-        //     $('.row').append('<div class="col-sm-4"></div>');
-        //     $('.col-sm-4').eq(i).append('<img src="https://via.placeholder.com/600" class="w-100">');
-        //     $('.col-sm-4').eq(i).append('<h5>Card title</h5>');
-        //     $('.col-sm-4').eq(i).append('<p>가격 : 70000</p>');
-        // }
-
         var products = [
             { id: 0, price: 70000, title: 'Blossom Dress' },
             { id: 1, price: 50000, title: 'Springfield Shirt' },
@@ -69,14 +46,6 @@
                 </div>`;
             $('.row').append(템플릿);
         });
-
-        // jquery를 이용한 Ajax
-        $.get('https://codingapple1.github.io/js/more1.json').done(function (data) {
-            console.log(data);
-        })
-            .fail(function (error) {
-                console.log('실패');
-            });
     </script>
 
     <script>
@@ -118,8 +87,26 @@
             }
 
             count++;
-            console.log(count);
+            //console.log(count);
         });
+
+        $('#price').click(function () {
+            products.sort((a, b) => {
+                return a.price - b.price;
+            });
+            $('.row').html('');
+
+            products.forEach((a, i) => {
+                var 템플릿 =
+                    `<div class="col-sm-4">
+          <img src="https://via.placeholder.com/600" class="w-100">
+          <h5>${products[i].title}</h5>
+          <p>가격 : ${products[i].price}</p>
+        </div>`;
+                $('.row').append(템플릿)
+            })
+        });
+
     </script>
 </body>
 
