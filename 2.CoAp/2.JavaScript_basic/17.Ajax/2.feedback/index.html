@@ -29,7 +29,12 @@
     <div class="container" style="width: 100px; margin: 10px auto; padding: 0; ">
         <button class="btn btn-danger" id="price">가격 정렬</button>
     </div>
-
+    <div class="container" style="width: 100px; margin: 10px auto; padding: 0; ">
+        <button class="btn btn-danger" id="title">제목 정렬</button>
+    </div>
+    <div class="container" style="width: 100px; margin: 10px auto; padding: 0; ">
+        <button class="btn btn-danger" id="priceOption">6만 이하</button>
+    </div>
     <script>
         var products = [
             { id: 0, price: 70000, title: 'Blossom Dress' },
@@ -107,6 +112,59 @@
             })
         });
 
+        $('#title').click(function () {
+            products.sort((a, b) => {
+                if (a.title < b.title) return -1;
+                else return 1;
+            });
+            $('.row').html('');
+
+            products.forEach((a, i) => {
+                var 템플릿 =
+                    `<div class="col-sm-4">
+          <img src="https://via.placeholder.com/600" class="w-100">
+          <h5>${products[i].title}</h5>
+          <p>가격 : ${products[i].price}</p>
+        </div>`;
+                $('.row').append(템플릿)
+            })
+        });
+
+        $('#priceOption').click(function () {
+
+          
+            var newProducts = [];
+            products.forEach((a, i) => {
+                if (products[i].price <= 60000 ){
+                    newProducts += products[i];
+                }
+            });
+   
+            $('.row').html('');
+
+            newProducts.forEach((a, i) => {
+                var 템플릿 =
+                    `<div class="col-sm-4">
+          <img src="https://via.placeholder.com/600" class="w-100">
+          <h5>${newProducts[i].title}</h5>
+          <p>가격 : ${newProducts[i].price}</p>
+        </div>`;
+                $('.row').append(템플릿)
+            });
+        });
+    </script>
+
+    <script>
+    // 문자열 sort
+    var arr = ['가', '나', '다'];
+    
+    arr.sort(function(a, b){
+        if(a < b) return -1;
+        else return 1;
+    });
+    arr.forEach((a,i) =>{
+        console.log(a);
+    });
     </script>
 </body>
 
