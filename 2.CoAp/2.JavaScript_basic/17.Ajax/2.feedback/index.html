@@ -130,27 +130,27 @@
             })
         });
 
-        $('#priceOption').click(function () {
-
-          
-            var newProducts = [];
-            products.forEach((a, i) => {
-                if (products[i].price <= 60000 ){
-                    newProducts += products[i];
-                }
+        $('#priceOption').click(function () {  
+            // products.forEach((a, i) => {
+            //     if (products[i].price <= 60000 ){
+            //        newProducts += products[i];
+            //     }
+            // });
+            var newProducts = products.filter(function(a){
+                return a.price <= 60000;
             });
    
             $('.row').html('');
 
-            newProducts.forEach((a, i) => {
+           newProducts.forEach((a, i) => {
                 var 템플릿 =
                     `<div class="col-sm-4">
           <img src="https://via.placeholder.com/600" class="w-100">
           <h5>${newProducts[i].title}</h5>
           <p>가격 : ${newProducts[i].price}</p>
         </div>`;
-                $('.row').append(템플릿)
-            });
+                $('.row').append(템플릿);
+           });
         });
     </script>
 
