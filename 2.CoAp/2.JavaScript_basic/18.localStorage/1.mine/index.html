@@ -37,9 +37,9 @@
     </div>
     <script>
         var products = [
-            { id: 0, price: 70000, title: 'Blossom Dress' },
-            { id: 1, price: 50000, title: 'Springfield Shirt' },
-            { id: 2, price: 60000, title: 'Black Monastery' },
+            { id: 0, price: 70000, title: 'Blossom Dress', inCart: false },
+            { id: 1, price: 50000, title: 'Springfield Shirt', inCart: false },
+            { id: 2, price: 60000, title: 'Black Monastery', inCart: false },
         ];
 
         products.forEach((a, i) => {
@@ -48,8 +48,25 @@
                 <img src="https://via.placeholder.com/600" class="w-100">
                 <h5>${products[i].title}</h5>
                 <p>가격 : ${products[i].price}</p>
+                <div class="container" style="width: 100px; margin: 10px; padding: 0; ">
+        <button class="btn" id="inCart" value="${i}" style="background-color: grey">구매</button>
+    </div>
                 </div>`;
             $('.row').append(템플릿);
+        });
+    </script>
+
+    <script>
+        // 구매를 누르면 카트 배열에 이름이 들어감
+        var inCart = [];
+        /// 구매 버튼 테스트
+        $('.row').click(function (e) {
+            // 구매 리스트에 이름이 같은 원소 있는지 판독
+            if (inCart.includes(products[e.target.value].title) == false) {
+                inCart.push(products[e.target.value].title);
+            }
+            // 로컬스토리지에 넣기 
+            localStorage.setItem('cart', inCart );
         });
     </script>
 
@@ -130,14 +147,19 @@
             })
         });
 
-        $('#priceOption').click(function () {  
-            var newProducts = products.filter(function(a){
+        $('#priceOption').click(function () {
+            // products.forEach((a, i) => {
+            //     if (products[i].price <= 60000 ){
+            //        newProducts += products[i];
+            //     }
+            // });
+            var newProducts = products.filter(function (a) {
                 return a.price <= 60000;
             });
-   
+
             $('.row').html('');
 
-           newProducts.forEach((a, i) => {
+            newProducts.forEach((a, i) => {
                 var 템플릿 =
                     `<div class="col-sm-4">
           <img src="https://via.placeholder.com/600" class="w-100">
@@ -145,21 +167,36 @@
           <p>가격 : ${newProducts[i].price}</p>
         </div>`;
                 $('.row').append(템플릿);
-           });
+            });
         });
     </script>
 
     <script>
-    // 문자열 sort
-    var arr = ['가', '나', '다'];
-    
-    arr.sort(function(a, b){
-        if(a < b) return -1;
-        else return 1;
-    });
-    arr.forEach((a,i) =>{
-        console.log(a);
-    });
+        // 문자열 sort
+        // var arr = ['가', '나', '다'];
+
+        // arr.sort(function (a, b) {
+        //     if (a < b) return -1;
+        //     else return 1;
+        // });
+        // arr.forEach((a, i) => {
+        //     console.log(a);
+        // });
+    </script>
+
+    <script>
+        /// localStorage test
+        // var arr = [1, 2, 3];
+        // var newArr = JSON.stringify(arr);
+
+        // localStorage.setItem('num', newArr);
+        // localStorage.setItem('num1', arr);
+
+        // var getNum = localStorage.getItem('num');
+        // var getNum1 = localStorage.getItem('num1');
+        // getNum = JSON.parse(getNum);
+        // console.log(getNum);
+        // console.log(getNum1);
     </script>
 </body>
 
