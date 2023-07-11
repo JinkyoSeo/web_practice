@@ -33,7 +33,9 @@
     </div>
 
     <script>
-        // 초기 리스트 세팅
+        //////////////////////////
+        ///// 초기리스트 세팅 /////
+        //////////////////////////
         function iniList(){
             $('.list-container').html('');
             $.get('store.json').done((data) => {
@@ -56,29 +58,19 @@
 
         iniList();
         
-
-        // 검색
-        // 검색된게 있으면 -> 결과 표시 (리스트 지우고 결과 띄우기)
-        // 검색된게 없으면 -> 결과 없음 표시 (리스트 지우기)
-        
-        // TODO
-        // -> 포함글자 노란색으로 변경
-        // 중복 제거
-        // 검색 끝나면 리스트 원상복귀
-
-        var nullCheck = false;
-        $('input').change((e) => {
+        ////////////////
+        ///// 검색 /////
+        ////////////////
+        $('input').on("change",(e) => {
+            // 검색 리스트 보여주기 전에 초기화
+            $('.list-container').html('');
+            // 검색 정보
             var content = $('#search').val();
-            console.log(content);
-
             $.get('store.json').done((data) => {
                 data.products.forEach((a, i) => {
+                    // 검색 결과가 있으면
                     if (data.products[i].title.includes(content)) {
-                        if (nullCheck == false) {
-                            $('.list-container').html('');
-                            nullCheck = true;
-                        }
-
+                        // 검색 결과 템플릿
                         var template =
                             `<div class="list-box bg-white">
                     <div class="image-box">
@@ -89,20 +81,17 @@
             <p>가격 : ${data.products[i].price}</p>
             <button data-id="${a.id}">담기</button>      
         </div>`;
-                        $('.list-container').append(template);
-
+        // 검색 내용을 노란색으로 표시
+        var yellowTemplate = template.replace(content,`<span style="background-color: yellow">${content}</span>`)
+                        $('.list-container').append(yellowTemplate);
                     }
                 });
             });
-
         });
 
-
-
-
-
-        // 담기 버튼 누르면
-        // 장바구니에 리스트추가
+        ////////////////////////////
+        ///// 장바구기 담기버튼 /////
+        ////////////////////////////
         $('.list-container').click((e) => {
             console.log(e.target.dataset.id);
 
