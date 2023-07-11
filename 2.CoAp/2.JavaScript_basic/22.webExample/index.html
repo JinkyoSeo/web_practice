@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="main.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body style="background-color: lightgrey; margin: 0;">
+
+    <div class="nav bg-black">
+        <h4>집꾸미기</h4>
+        <p>Home</p>
+        <p>스토어</p>
+        <p>시공견적</p>
+    </div>
+
+    <input type="search" id="search" class="bg-white">
+
+    <div class="list-container">
+
+    </div>
+
+    <div class="cart-container bg-grey">
+        <p style="color: white;">장바구니</p>
+        <div class="drag-box bg-black">
+        </div>
+    </div>
+
+    <script>
+        // 초기 리스트 세팅
+        function iniList(){
+            $('.list-container').html('');
+            $.get('store.json').done((data) => {
+            data.products.forEach((a, i) => {
+                // 일반 리스트
+                var template =
+                    `<div class="list-box bg-white">
+                    <div class="image-box">
+                        <img src="pr${i + 1}.JPG">
+                        </div>
+                    <h5>${data.products[i].title}</h5>
+            <p>${data.products[i].brand}</p>
+            <p>가격 : ${data.products[i].price}</p>
+            <button data-id="${a.id}">담기</button>      
+        </div>`;
+                $('.list-container').append(template);
+            });
+        });
+        }
+
+        iniList();
+        
+
+        // 검색
+        // 검색된게 있으면 -> 결과 표시 (리스트 지우고 결과 띄우기)
+        // 검색된게 없으면 -> 결과 없음 표시 (리스트 지우기)
+        
+        // TODO
+        // -> 포함글자 노란색으로 변경
+        // 중복 제거
+        // 검색 끝나면 리스트 원상복귀
+
+        var nullCheck = false;
+        $('input').change((e) => {
+            var content = $('#search').val();
+            console.log(content);
+
+            $.get('store.json').done((data) => {
+                data.products.forEach((a, i) => {
+                    if (data.products[i].title.includes(content)) {
+                        if (nullCheck == false) {
+                            $('.list-container').html('');
+                            nullCheck = true;
+                        }
+
+                        var template =
+                            `<div class="list-box bg-white">
+                    <div class="image-box">
+                        <img src="pr${i + 1}.JPG">
+                        </div>
+                    <h5>${data.products[i].title}</h5>
+            <p>${data.products[i].brand}</p>
+            <p>가격 : ${data.products[i].price}</p>
+            <button data-id="${a.id}">담기</button>      
+        </div>`;
+                        $('.list-container').append(template);
+
+                    }
+                });
+            });
+
+        });
+
+
+
+
+
+        // 담기 버튼 누르면
+        // 장바구니에 리스트추가
+        $('.list-container').click((e) => {
+            console.log(e.target.dataset.id);
+
+            $.get('store.json').done((data) => {
+                data.products.forEach((a, i) => {
+                    if ((e.target.dataset.id) == data.products[i].id) {
+                        var template =
+                            `<div class="list-box bg-white">
+                    <div class="image-box">
+                        <img src="pr${i + 1}.JPG">
+                        </div>
+                    <h5>${data.products[i].title}</h5>
+            <p>${data.products[i].brand}</p>
+            <p>가격 : ${data.products[i].price}</p>     
+        </div>`;
+                        $('.drag-box').append(template);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
