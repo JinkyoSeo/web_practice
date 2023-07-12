@@ -204,28 +204,30 @@
     $('.slide-box').eq(0).on('mousedown', (e) => {
       start = e.clientX;
       isDown = true;
+      console.log("down");
     });
     $('.slide-box').eq(0).on('mousemove', (e) => {
       if (isDown == true) {
         $('.slide-container').css('transform', `translateX(${e.clientX - start}px)`);
       }
       distance = e.clientX - start;
-    });
-    $('.slide-box').eq(0).on('mouseup', (e) => {
-      isDown = false;
-      
-      if (distance >= 100){
-        curBox++;
-      if (curBox == 3) curBox = 0;
-      $('.slide-container').css('transition', 'all 0.5s').css('transform', `translateX(-${curBox}00vw)`);
-      }
-      else {
-        curBox--;
-      if (curBox == -1) curBox = 2;
-      $('.slide-container').css('transition', 'all 0.5s').css('transform', `translateX(-${curBox}00vw)`);
-      }
+      console.log("move");
     });
 
+    $('.slide-box').eq(0).on('mouseup', (e) => {
+      isDown = false;
+      console.log("up");
+      
+      if (distance < -100){
+      $('.slide-container').css('transition', 'all 0.5s').css('transform', `translateX(-100vw)`);
+      }
+      else {
+      $('.slide-container').css('transition', 'all 0.5s').css('transform', `translateX(0vw)`);
+      }
+      setTimeout(()=>{
+      $('.slide-container').css('transition', 'none')
+    }, 500)
+    });
   </script>
 </body>
 

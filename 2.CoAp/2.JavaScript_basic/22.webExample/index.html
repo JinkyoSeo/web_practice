@@ -32,36 +32,38 @@
         </div>
     </div>
 
+    <div class="totalPrice">
+    </div>
     <script>
-        //////////////////////////
+        //////////////////////////o
         ///// 초기리스트 세팅 /////
         //////////////////////////
-        function iniList(){
+        function iniList() {
             $('.list-container').html('');
             $.get('store.json').done((data) => {
-            data.products.forEach((a, i) => {
-                // 일반 리스트
-                var template =
-                    `<div class="list-box bg-white">
+                data.products.forEach((a, i) => {
+                    // 일반 리스트
+                    var template =
+                        `<div class="list-box bg-white" draggable="true" data-id="${a.id}">
                     <div class="image-box">
                         <img src="pr${i + 1}.JPG">
                         </div>
-                    <h5>${data.products[i].title}</h5>
-            <p>${data.products[i].brand}</p>
-            <p>가격 : ${data.products[i].price}</p>
-            <button data-id="${a.id}">담기</button>      
+                    <h5>${a.title}</h5>
+            <p>${a.brand}</p>
+            <p>가격 : ${a.price}</p>
+            <button class="add" data-id="${a.id}">담기</button>      
         </div>`;
-                $('.list-container').append(template);
+                    $('.list-container').append(template);
+                });
             });
-        });
         }
 
         iniList();
-        
+
         ////////////////
         ///// 검색 /////
         ////////////////
-        $('input').on("change",(e) => {
+        $('input').on("change", (e) => {
             // 검색 리스트 보여주기 전에 초기화
             $('.list-container').html('');
             // 검색 정보
@@ -81,8 +83,8 @@
             <p>가격 : ${data.products[i].price}</p>
             <button data-id="${a.id}">담기</button>      
         </div>`;
-        // 검색 내용을 노란색으로 표시
-        var yellowTemplate = template.replace(content,`<span style="background-color: yellow">${content}</span>`)
+                        // 검색 내용을 노란색으로 표시
+                        var yellowTemplate = template.replace(content, `<span style="background-color: yellow">${content}</span>`)
                         $('.list-container').append(yellowTemplate);
                     }
                 });
@@ -92,11 +94,15 @@
         ////////////////////////////
         ///// 장바구기 담기버튼 /////
         ////////////////////////////
+        let idCheck = [];
+        let totalPrice = 0;
+        // 담기 버튼 누르면
         $('.list-container').click((e) => {
-            console.log(e.target.dataset.id);
-
+            // store.json에서 값 가져오기
             $.get('store.json').done((data) => {
+                // store.json에 있는 data의 products 값 루프
                 data.products.forEach((a, i) => {
+                    // 해당 담기 버튼의 상품 id 찾기
                     if ((e.target.dataset.id) == data.products[i].id) {
                         var template =
                             `<div class="list-box bg-white">
@@ -105,11 +111,61 @@
                         </div>
                     <h5>${data.products[i].title}</h5>
             <p>${data.products[i].brand}</p>
-            <p>가격 : ${data.products[i].price}</p>     
+            <p>가격 : ${data.products[i].price}</p>
+            <input class="qty" type="text" value='1'>
         </div>`;
-                        $('.drag-box').append(template);
+
+                        // 기존에 장바구에 추가 안됐으면
+                        if (!idCheck.includes(data.products[i].id)) {
+                            // drag-box에 template 넣기
+                            $('.drag-box').append(template);
+                            idCheck.push(data.products[i].id);
+                            console.log(idCheck);
+                            ////////////////////
+                            ///// 가격 총합 /////
+                            ////////////////////
+                            // 가격총합
+                            totalPrice += data.products[i].price;
+                            console.log(data.products[i].price);
+                            console.log(totalPrice);
+                            // 가격총합 html에 추가
+                            var totalPriceTemplate = `<p>${totalPrice}</p>`;
+                            $('.totalPrice').html('');
+
+                            // 장바구니에 아이템이 있으면 -> 최종가격, 구매하기 버튼 출력
+                           if (idCheck.length != 0){
+                            $('.totalPrice').append(`최종가격 : ${totalPriceTemplate}`);
+                            $('.totalPrice').append(`<button>구매하기</button>`);
+                           }
+                        }
+                        else{
+                            
+
+                        }
                     }
                 });
+            });
+        });
+
+        /////////////////////////////
+        ///// 장바구니를 드레그로 /////
+        /////////////////////////////
+        $.get('store.json').then((data) => {
+            $('.list-box').on('dragstart', (e) => {
+                // 해당 드레그 아이템을 id에 set
+                e.originalEvent.dataTransfer.setData('id', e.target.dataset.id);
+            });
+
+            $('.cart-container').on('dragover', (e) => {
+                e.preventDefault();
+            });
+
+            $('.cart-container').on('drop', (e) => {
+                // set한 id를 get해서 productId에 할당
+                let productId = e.originalEvent.dataTransfer.getData('id');
+                console.log(productId);
+                // 드레그 하면 해당 id 담기 버튼을 활성화
+                $('.add').eq(productId).click();
             });
         });
     </script>
