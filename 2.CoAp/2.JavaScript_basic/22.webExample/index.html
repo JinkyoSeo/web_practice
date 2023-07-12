@@ -96,7 +96,11 @@
                 // 해당 담기 버튼의 상품 id 찾기
                 if ((e.target.dataset.id) == a.id) {
                     // 기존에 장바구에 추가 안됐으면
-                    if (!cart.id.includes(a.id)) {
+                    //================================= ================ ===========================//
+                    // cart에 있는 오브젝트가 현재 담기 오브젝트와의 비교
+                    console.log(cart);
+                    console.log(a);
+                    if (!cart.includes(a)) {
                         // push하기 전 count 추가
                         a.count++;
                         // cart에 push
@@ -114,14 +118,13 @@
                              </div>`;
                         // drag-box에 template 넣기
                         $('.drag-box').append(template);
-
                         ////////////////////
                         ///// 가격 총합 /////
                         ////////////////////
                         // 가격총합
                         totalPrice += data.products[i].price;
-                        console.log(data.products[i].price);
-                        console.log(totalPrice);
+                       // console.log(data.products[i].price);
+                       // console.log(totalPrice);
                         // 가격총합 html에 추가
                         var totalPriceTemplate = `<p>${totalPrice}</p>`;
                         $('.totalPrice').html('');
@@ -137,7 +140,7 @@
                         // count 증가
                         a.count++;
                         // 초기화 후
-                        $('.drag-box').append('');
+                        $('.drag-box').html('');
                         // 재 출력
                         cart.forEach((a, i) => {
                             var newTemplate =
