@@ -34,6 +34,7 @@
 
     <div class="totalPrice">
     </div>
+
     <script>
         //////////////////////////o
         ///// 초기리스트 세팅 /////
@@ -122,9 +123,9 @@
                         ///// 가격 총합 /////
                         ////////////////////
                         // 가격총합
-                        totalPrice += data.products[i].price;
-                       // console.log(data.products[i].price);
-                       // console.log(totalPrice);
+                        cart.forEach((a, i) => {
+                            totalPrice += (a.count * a.price);
+                        });
                         // 가격총합 html에 추가
                         var totalPriceTemplate = `<p>${totalPrice}</p>`;
                         $('.totalPrice').html('');
@@ -132,7 +133,7 @@
                         // 장바구니에 아이템이 있으면 -> 최종가격, 구매하기 버튼 출력
                         if (cart.length != 0) {
                             $('.totalPrice').append(`최종가격 : ${totalPriceTemplate}`);
-                            $('.totalPrice').append(`<button>구매하기</button>`);
+                            $('.totalPrice').append(`<button id="buy">구매하기</button>`);
                         }
                     }
                     // 기존 장바구니에 같은 아이템이 있는 경우
@@ -144,7 +145,7 @@
                         // 재 출력
                         cart.forEach((a, i) => {
                             var newTemplate =
-                            `<div class="list-box bg-white">
+                                `<div class="list-box bg-white">
                              <div class="image-box">
                              <img src="pr${i + 1}.JPG">
                              </div>
@@ -153,13 +154,36 @@
                              <p>가격 : ${a.price}</p>
                              <input class="qty" type="text" value='${a.count}'>
                              </div>`;
-                        // drag-box에 template 넣기
-                        $('.drag-box').append(newTemplate); 
+                            // drag-box에 template 넣기
+                            $('.drag-box').append(newTemplate);
                         });
                     }
                 }
             });
         }
+
+        /////////////////////////////
+        ///// 장바구니를 드레그로 /////
+        /////////////////////////////
+        function dragToCart(data, e) {
+            $('.list-box').on('dragstart', (e) => {
+                // 해당 드레그 아이템을 id에 set
+                e.originalEvent.dataTransfer.setData('id', e.target.dataset.id);
+            });
+
+            $('.cart-container').on('dragover', (e) => {
+                e.preventDefault();
+            });
+
+            $('.cart-container').on('drop', (e) => {
+                // set한 id를 get해서 productId에 할당
+                let productId = e.originalEvent.dataTransfer.getData('id');
+                console.log(productId);
+                // 드레그 하면 해당 id 담기 버튼을 활성화
+                $('.add').eq(productId).click();
+            });
+        }
+
 
         // 메인 작동
         $.get('store.json').done((data) => {
@@ -179,30 +203,22 @@
             $('.list-container').click((e) => {
                 inCart(data, e);
             });
+            // 장바구니 드레그
+            dragToCart(data);
         });
 
-
-        /////////////////////////////
-        ///// 장바구니를 드레그로 /////
-        /////////////////////////////
-        $.get('store.json').then((data) => {
-            $('.list-box').on('dragstart', (e) => {
-                // 해당 드레그 아이템을 id에 set
-                e.originalEvent.dataTransfer.setData('id', e.target.dataset.id);
+          // 구매하기
+          console.log('??');
+          $('.totalPrice').click(() => {
+             var template = '<canvas id="canvas" width="350" height="350"></canvas>';
+                $("body").append(template);
+                var canvas = document.getElementById('canvas');
+                var c = canvas.getContext('2d');
+                c.font = '20px dotum';
+                c.fillText('안녕하세요', 30, 20);
+                c.fillText('반갑습니다', 30, 50);
+                console.log('canvas on');
             });
-
-            $('.cart-container').on('dragover', (e) => {
-                e.preventDefault();
-            });
-
-            $('.cart-container').on('drop', (e) => {
-                // set한 id를 get해서 productId에 할당
-                let productId = e.originalEvent.dataTransfer.getData('id');
-                console.log(productId);
-                // 드레그 하면 해당 id 담기 버튼을 활성화
-                $('.add').eq(productId).click();
-            });
-        });
     </script>
 </body>
 
