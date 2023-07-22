@@ -1,13 +1,26 @@
 const express = require('express');
 const app = express();
-
 // body-parser라이브러리 사용시
 // 보낸 데이터를 쉽게 처리 가능
-app.use(express.urlencoded({extended: true})) 
+app.use(express.urlencoded({extended: true}));
+const MongoClient = require('mongodb').MongoClient;
+app.set('view engine', 'ejs');
 
-app.listen(8080, function(){
-    console.log('listening on 8080')
-});
+var db;
+MongoClient.connect('mongodb+srv://admin:qwer1234@cluster0.75bsb1m.mongodb.net/?retryWrites=true&w=majority',{ useUnifiedTopology: true }, function(에러, client){
+    if (에러) return console.log(에러);
+    db = client.db('todoapp');
+
+    // db에 자료 추가 할때
+    db.collection('post').insertOne({이름 : 'John', _id : 100}, function(에러, 결과){
+        console.log('저장완료');
+    });
+
+    //서버띄우는 코드 여기로 옮기기
+    app.listen('8080', function(){
+      console.log('listening on 8080')
+    });
+  })
 
 app.get('/', function(요청, 응답){
     응답.sendFile(__dirname + '/index.html')
@@ -19,7 +32,22 @@ app.get('/write', function(요청, 응답){
     응답.sendFile(__dirname + '/write.html')
 });
 
-app.post('/add', function(요청, 응답){
-    console.log(요청.body); // 폼에 입력한 제목과 날짜 데이터
-    응답.send('전송완료')
+app.get('/list', function(요청, 응답){
+    db.collection('post').find().toArray(function(에러, 결과){
+        console.log(결과)
+        응답.render('list.ejs', {posts : 결과})
+    })
 })
+
+
+
+app.post('/add', function(요청, 응답){
+    응답.send('전송완료');
+    console.log(요청.body.date);
+    console.log(요청.body.title);
+    db.collection('post').insertOne({제목: 요청.body.title, 날짜: 요청.body.date}, function(){
+        console.log('저장완료');
+    })
+})
+
+
