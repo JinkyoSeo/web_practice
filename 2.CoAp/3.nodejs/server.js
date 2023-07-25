@@ -5,6 +5,8 @@ const app = express();
 app.use(express.urlencoded({extended: true}));
 const MongoClient = require('mongodb').MongoClient;
 app.set('view engine', 'ejs');
+// 노드에게 publick파일이 있는것을 알려줌
+app.use('/public', express.static('public'));
 
 var db;
 MongoClient.connect('mongodb+srv://admin:qwer1234@cluster0.75bsb1m.mongodb.net/?retryWrites=true&w=majority',{ useUnifiedTopology: true }, function(에러, client){
@@ -22,14 +24,15 @@ MongoClient.connect('mongodb+srv://admin:qwer1234@cluster0.75bsb1m.mongodb.net/?
     });
   })
 
+  // sendFile은 파일을 보내고 싶을때 사용
+  // render은 파일을 보내기 전에 ejs 파일 -> html로 바꾸고 싶을때
 app.get('/', function(요청, 응답){
-    응답.sendFile(__dirname + '/index.html')
-    // sendFile 파일을 보내는 함수
-    // __dirname은 현재 파일의 경로
+    응답.render('index.ejs');
+
 })
 
 app.get('/write', function(요청, 응답){
-    응답.sendFile(__dirname + '/write.html')
+    응답.render('write.ejs')
 });
 
 app.get('/list', function(요청, 응답){
@@ -44,7 +47,7 @@ app.get('/detail/:id', function(요청, 응답){
       응답.render('detail.ejs', {data : 결과} )
     })
   });
-  
+
 app.post('/add', function(요청, 응답){
     db.collection('counter').findOne({name: '게시물갯수'}, function(에러, 결과){
         var 총게시물갯수 = 결과.totalPost;
