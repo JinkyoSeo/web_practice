@@ -1,15 +1,38 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Document</title>
-      </head>
-      <body>
-        <% for (var i = 0; i < posts.length; i ++) { %>
-            <h4><%= posts[i].제목 %></h4>
-            <p><%= posts[i].날짜 %></p>
-          <% }/ %>
-      </body>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <ul class="list-group">
+    <% for (var i=0; i < posts.length; i++){%>
+      <li class="list-group-item">
+        <h4>할일 제목 : <%= posts[i].제목 %>
+        </h4>
+        <p> 할일 마감날짜 : <%= posts[i].날짜 %>
+        </p>
+        <button class="delete" data-id="<%= posts[i]._id %>">삭제</button>
+      </li>
+      <% } %>
+  </ul>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+  <script>
+    $('.delete').click(function (e) {
+      $.ajax({
+        method: 'DELETE',
+        url: '/delete',
+        data: { _id: e.target.dataset.id } // 서버 요청.body에 담김
+      }).done(function (결과) {
+      }).fail((xhr, code, err) => {
+      });
+    });
+  </script>
+</body>
+
 </html>
