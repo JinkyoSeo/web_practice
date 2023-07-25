@@ -39,8 +39,12 @@ app.get('/list', function(요청, 응답){
     })
 })
 
-
-
+app.get('/detail/:id', function(요청, 응답){
+    db.collection('post').findOne({ _id : parseInt(요청.params.id) }, function(에러, 결과){
+      응답.render('detail.ejs', {data : 결과} )
+    })
+  });
+  
 app.post('/add', function(요청, 응답){
     db.collection('counter').findOne({name: '게시물갯수'}, function(에러, 결과){
         var 총게시물갯수 = 결과.totalPost;
@@ -59,6 +63,8 @@ app.delete('/delete', function(요청, 응답){
     db.collection('post').deleteOne(요청.body, function(에러, 결과){
         console.log('삭제완료');
     });
-    
+
     응답.send('삭제완료');
 })
+
+
