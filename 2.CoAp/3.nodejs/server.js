@@ -1,12 +1,18 @@
 const express = require('express');
 const app = express();
+
 // body-parser라이브러리 사용시
 // 보낸 데이터를 쉽게 처리 가능
 app.use(express.urlencoded({extended: true}));
 const MongoClient = require('mongodb').MongoClient;
 app.set('view engine', 'ejs');
+
 // 노드에게 publick파일이 있는것을 알려줌
 app.use('/public', express.static('public'));
+
+// method-override 사용하기 위해서 -> PUT(수정) method를 사용하기 위해서
+const methodOverride = require('method-override');
+app.use(methodOverride('_method'));
 
 var db;
 MongoClient.connect('mongodb+srv://admin:qwer1234@cluster0.75bsb1m.mongodb.net/?retryWrites=true&w=majority',{ useUnifiedTopology: true }, function(에러, client){
@@ -75,5 +81,13 @@ app.delete('/delete', function(요청, 응답){
 
     응답.send('삭제완료');
 })
+
+app.put('/edit', function(요청, 응답){
+    db.collection('post').updateOne({_id : parseInt(요청.body.id)}, {$set : {제목 : 요청.body.title, 날짜 : 요청.body.date}}, function(에러, 결과){
+        console.log('수정 완료');
+        console.log(요청.body);
+        응답.redirect('/list');
+    });
+});
 
 
