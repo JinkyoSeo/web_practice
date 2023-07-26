@@ -122,10 +122,17 @@ passport.use(new LocalStrategy({
     passReqToCallback: false, // 아이디/비번 말고 다른 정보 검사가 필요한지
   }, function (입력한아이디, 입력한비번, done) {
     //console.log(입력한아이디, 입력한비번);
+
+    // 기능 순서
+    // 1. DB에서 {id : 입력한 아이디}인 문서를 찾기
+    // 2. 있으면 그 문서의 pw값과 입력한 비번을 비교
+    // 3. 성공하면 찾은 유저를 출력
     db.collection('login').findOne({ id: 입력한아이디 }, function (에러, 결과) {
       if (에러) return done(에러)
   
       if (!결과) return done(null, false, { message: '존재하지않는 아이디요' })
+      // 원래는 암호화한 pw를 DB에 저장
+      // 유저의 비번도 암호화 해서 받고 비교
       if (입력한비번 == 결과.pw) {
         return done(null, 결과)
       } else {
@@ -133,5 +140,17 @@ passport.use(new LocalStrategy({
       }
     })
   }));
+
+  // 아이디/비번이 DB와 비교했을때 맞는 경우
+  // sessionID를 쿠키에 넣어서 유저에게 발급
+  // serializeUser() : 유저의 id 데이터를 바탕으로 세션데이터를 만들어주고 쿠키로 보내줌
+  passport.serializeUser(function (user, done){
+    done(null, user.id);
+  });
+
+  // deserializeUser() : 로그인 된 유저가 마이페이지 같은걸 접속했을때 실행
+  passport.deserializeUser(function (아이디, done){
+    done(null, {});
+  });
 
 
