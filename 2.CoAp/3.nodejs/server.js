@@ -1,6 +1,10 @@
 const express = require('express');
 const app = express();
 
+// env 파일 관리하기 위한 라이브러리 dotenv
+require('dotenv').config();
+
+
 // body-parser라이브러리 사용시
 // 보낸 데이터를 쉽게 처리 가능
 app.use(express.urlencoded({extended: true}));
@@ -27,7 +31,7 @@ app.use(passport.session());
 
 var db;
 
-MongoClient.connect('mongodb+srv://admin:qwer1234@cluster0.75bsb1m.mongodb.net/?retryWrites=true&w=majority',{ useUnifiedTopology: true }, function(에러, client){
+MongoClient.connect(process.env.DB_URL,{ useUnifiedTopology: true }, function(에러, client){
     if (에러) return console.log(에러);
     db = client.db('todoapp');
 
@@ -37,7 +41,7 @@ MongoClient.connect('mongodb+srv://admin:qwer1234@cluster0.75bsb1m.mongodb.net/?
     // });
 
     //서버띄우는 코드 여기로 옮기기
-    app.listen('8080', function(){
+    app.listen(process.env.PORT, function(){
       console.log('listening on 8080')
     });
   })
