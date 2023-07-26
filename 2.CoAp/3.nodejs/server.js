@@ -26,6 +26,7 @@ app.use(passport.session());
 // -- 로그인
 
 var db;
+
 MongoClient.connect('mongodb+srv://admin:qwer1234@cluster0.75bsb1m.mongodb.net/?retryWrites=true&w=majority',{ useUnifiedTopology: true }, function(에러, client){
     if (에러) return console.log(에러);
     db = client.db('todoapp');
@@ -45,7 +46,6 @@ MongoClient.connect('mongodb+srv://admin:qwer1234@cluster0.75bsb1m.mongodb.net/?
   // render은 파일을 보내기 전에 ejs 파일 -> html로 바꾸고 싶을때
 app.get('/', function(요청, 응답){
     응답.render('index.ejs');
-
 })
 
 app.get('/write', function(요청, 응답){
@@ -73,6 +73,29 @@ app.get('/edit/:id', function(요청, 응답){
 
 app.get('/login', function(요청, 응답){
     응답.render('login.ejs');
+});
+
+app.get('/mypage',로그인했니, function(요청, 응답){
+    응답.render('mypage.ejs', {사용자 : 요청.user} );
+});
+
+function 로그인했니(요청, 응답, next){
+    if (요청.user){ // 요청.user 로그인 한 유저의 DB상 정보 / id, pw, name...
+                    // 사용하려면 deserializeUser 부분 개발 필요
+                    // deserializeUser(): 세션아이디를 바탕으로 이 유저의 정보를 DB에서 찾아주세요
+                    // 요청.user에 꽂아줌
+        next();
+        console.log(요청.user); // { _id: 64c0ad634ad830ef07893ff2, id: 'test', pw: 'test' }
+    }
+    else{
+        응답.send('로그인 안했누;;');
+        
+    }
+}
+
+app.get('/logout', function(요청, 응답){
+    요청.logout();
+    응답.redirect('/');
 });
 
 app.post('/add', function(요청, 응답){
@@ -149,8 +172,12 @@ passport.use(new LocalStrategy({
   });
 
   // deserializeUser() : 로그인 된 유저가 마이페이지 같은걸 접속했을때 실행
+  // DB에서 {id: 세션아이디에 숨겨져 있던 유저 아이디}인 게시물 찾음
+  // 그 결과를 요청.user에 꽂아줌
   passport.deserializeUser(function (아이디, done){
-    done(null, {});
+    db.collection('login').findOne({id: 아이디}, function(에러, 결과){
+        done(null, 결과);
+    });
   });
 
 
