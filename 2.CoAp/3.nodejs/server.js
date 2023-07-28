@@ -102,6 +102,14 @@ app.get('/logout', function(요청, 응답){
     응답.redirect('/');
 });
 
+app.get('/search', (요청, 응답)=>{
+  //console.log(요청.query.value); // query string 전부 볼 수 있음
+  db.collection('post').find({제목 : 요청.query.value}).toArray((에러,결과)=>{
+    // console.log(결과);
+    응답.render('search.ejs', {검색결과 : 결과});
+  });
+});
+
 app.post('/add', function(요청, 응답){
     db.collection('counter').findOne({name: '게시물갯수'}, function(에러, 결과){
         var 총게시물갯수 = 결과.totalPost;

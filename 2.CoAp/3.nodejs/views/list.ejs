@@ -12,39 +12,57 @@
 </head>
 
 <body>
+  <!-- 네비게이션바 -->
   <%- include('nav.html') %>
 
-  <h4 class="ml-2 my-3 text-center">서버에서 가져온 할 일 리스트</h4>
+    <!-- 검색창 -->
+    <div class="container input-group mb-3 mt-3">
+      <input class="form-control" id="search-input">
+      <button class="input-group-append btn btn-danger" id="search">검색</button>
+    </div>
 
-  <div class="container">
-    <ul class="list-group">
-      <% for (var i=0; i < posts.length; i++){%>
-        <li class="list-group-item">
-          <h4>할일 제목 : <%= posts[i].제목 %>
-          </h4>
-          <p> 할일 마감날짜 : <%= posts[i].날짜 %>
-          </p>
-          <button class="delete btn btn-danger" data-id="<%= posts[i]._id %>">삭제</button>
-        </li>
-        <% } %>
-    </ul>
-  </div>
+    <h4 class="ml-2 my-3 text-center">서버에서 가져온 할 일 리스트</h4>
 
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <div class="container">
+      <ul class="list-group">
+        <% for (var i=0; i < posts.length; i++){%>
+          <li class="list-group-item">
+            <h4>할일 제목 : <%= posts[i].제목 %>
+            </h4>
+            <p> 할일 마감날짜 : <%= posts[i].날짜 %>
+            </p>
+            <button class="delete btn btn-danger" data-id="<%= posts[i]._id %>">삭제</button>
+          </li>
+          <% } %>
+      </ul>
+    </div>
 
-  <script>
-    $('.delete').click(function (e) {
-      $.ajax({
-        method: 'DELETE',
-        url: '/delete',
-        data: { _id: e.target.dataset.id } // 서버 요청.body에 담김
-      }).done(/*function*/ (결과) => { // function(){} 형태보다 ()=>{} 이 형식으로 해야 this값의 변형이 없다
-        $(this/*=e.target*/).parent('li').fadeOut();
-      }).fail((xhr, code, err) => { // XMLHttpRequest, 에러코드, 에러메세지
-        alert(err);
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <script>
+
+      // 리스트 삭제 버튼
+      $('.delete').click(function (e) {
+        $.ajax({
+          method: 'DELETE',
+          url: '/delete',
+          data: { _id: e.target.dataset.id } // 서버 요청.body에 담김
+        }).done(/*function*/(결과) => { // function(){} 형태보다 ()=>{} 이 형식으로 해야 this값의 변형이 없다
+          $(this/*=e.target*/).parent('li').fadeOut();
+        }).fail((xhr, code, err) => { // XMLHttpRequest, 에러코드, 에러메세지
+          alert(err);
+        });
       });
-    });
-  </script>
+    </script>
+
+    <script>
+      // 검색창
+      // get으로 서버에 데이터 보내는 방법 -> query string
+      $('#search').click(function () {
+        var 입력한값 = $('#search-input').val();
+        window.location.replace('/search?value=' + 입력한값); // 현재 URL주소를 /search?value=이닦기로 바꾸는 코드
+      });
+    </script>
 </body>
 
 </html>
