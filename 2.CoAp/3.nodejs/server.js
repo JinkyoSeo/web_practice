@@ -79,6 +79,10 @@ app.get('/login', function(요청, 응답){
     응답.render('login.ejs');
 });
 
+app.get('/register', function(요청, 응답){
+  응답.render('register.ejs');
+});
+
 app.get('/mypage',로그인했니, function(요청, 응답){
     응답.render('mypage.ejs', {사용자 : 요청.user} );
 });
@@ -116,10 +120,12 @@ app.get('/search', (요청, 응답)=>{
 });
 
 app.post('/add', function(요청, 응답){
+  console.log(요청.user._id);
+      응답.send('전송완료');
     db.collection('counter').findOne({name: '게시물갯수'}, function(에러, 결과){
         var 총게시물갯수 = 결과.totalPost;
-       
-        db.collection('post').insertOne({_id : (총게시물갯수 + 1),제목: 요청.body.title, 날짜: 요청.body.date}, function(){
+        var post = { _id: 총게시물갯수 + 1, 작성자: 요청.user._id, 제목: 요청.body.title, 날짜: 요청.body.date}
+        db.collection('post').insertOne( post, function(에러, 결과){
             db.collection('counter').updateOne({name:'게시물갯수'}, {$inc : {totalPost: 1}}, function(에러,결과){
                 if(에러) return console.log(에러);
                 응답.send('전송완료');
@@ -136,13 +142,19 @@ app.post('/login',passport.authenticate('local', {failureRedirect : '/fail'}) , 
     응답.redirect('/'); // redirect() 다른 페이지로 이동 시켜줌
 });
 
+app.post('/register', function(요청, 응답){
+  db.collection('login').insertOne({id: 요청.body.id, pw: 요청.body.pw}, (에러, 결과)=>{
+    응답.redirect('/');
+  });
+});
+
 app.delete('/delete', function(요청, 응답){
     요청.body._id = parseInt(요청.body._id);
-    db.collection('post').deleteOne(요청.body, function(에러, 결과){
+    db.collection('post').deleteOne({_id: 요청.body._id, 작성자 : 요청.user._id}, function(에러, 결과){
         console.log('삭제완료');
+        console.log('에러', 에러);
+        응답.status(200).send({message: '성공했습니다.'});
     });
-
-    응답.send('삭제완료');
 })
 
 app.put('/edit', function(요청, 응답){
