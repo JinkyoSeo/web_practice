@@ -104,7 +104,10 @@ app.get('/logout', function(요청, 응답){
 
 app.get('/search', (요청, 응답)=>{
   //console.log(요청.query.value); // query string 전부 볼 수 있음
-  db.collection('post').find({제목 : 요청.query.value}).toArray((에러,결과)=>{
+  var pattern = 요청.query.value;
+  const regex = new RegExp(pattern, "gi"); // 변수를 정규식으로 이용할 경우 객체를 생성해서 적용해야함
+                                  // gi 대소문자 구분 없이 모든 패턴 찾아줌
+  db.collection('post').find({제목 : regex}).toArray((에러,결과)=>{ //    // 정규식 문자에 ~가 들어가 있냐 검사
     // console.log(결과);
     응답.render('search.ejs', {검색결과 : 결과});
   });
