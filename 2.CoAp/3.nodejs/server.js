@@ -120,8 +120,7 @@ app.get('/search', (요청, 응답)=>{
 });
 
 app.post('/add', function(요청, 응답){
-  console.log(요청.user._id);
-      응답.send('전송완료');
+    console.log(요청.user._id);
     db.collection('counter').findOne({name: '게시물갯수'}, function(에러, 결과){
         var 총게시물갯수 = 결과.totalPost;
         var post = { _id: 총게시물갯수 + 1, 작성자: 요청.user._id, 제목: 요청.body.title, 날짜: 요청.body.date}
