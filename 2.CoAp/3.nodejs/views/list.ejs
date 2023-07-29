@@ -48,9 +48,11 @@
           url: '/delete',
           data: { _id: e.target.dataset.id } // 서버 요청.body에 담김
         }).done(/*function*/(결과) => { // function(){} 형태보다 ()=>{} 이 형식으로 해야 this값의 변형이 없다
-          $(this/*=e.target*/).parent('li').fadeOut();
+        consel.log(결과);  
+        $(this/*=e.target*/).parent('li').fadeOut(); // 서버에 확인 안해보고 일단 없애서 아쉽
         }).fail((xhr, code, err) => { // XMLHttpRequest, 에러코드, 에러메세지
           alert(err);
+          
         });
       });
     </script>
