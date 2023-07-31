@@ -163,12 +163,7 @@ app.get('/image/:imageName', (요청, 응답)=>{
   응답.sendFile(__dirname + '/public/image/' + 요청.params.imageName);
 });
 
-app.get('/chatroom',로그인했니, (요청, 응답)=>{
-  db.collection('chatroom').find({ member : 요청.user_id}).toArray().then((결과)=>{
-    console.log(결과);
-    응답.render('chatroom.ejs', {data : 결과});
-  });
-});
+
 
 
 app.post('/add', function (요청, 응답) {
@@ -220,6 +215,12 @@ app.post('/chatroom', function(요청, 응답){
   });
 });
 
+app.get('/chatroom', 로그인했니, function(요청, 응답){ 
+  db.collection('chatroom').find({ member : 요청.user._id }).toArray().then((결과)=>{
+    console.log(결과);
+    응답.render('chatroom.ejs', {data : 결과})
+  })
+}); 
 // function 채팅중복이니(요청, 응답, next) {
 //   if (요청.user) { // 요청.user 로그인 한 유저의 DB상 정보 / id, pw, name...
 //     // 사용하려면 deserializeUser 부분 개발 필요
@@ -234,7 +235,7 @@ app.post('/chatroom', function(요청, 응답){
 //   }
 // }
 
-app.post('/messages', 로그인했니, (요청, 에러)=>{
+app.post('/messages', 로그인했니, (요청, 응답)=>{
   var 저장할거 = {
     parent : 요청.body.parent,
     userid : 요청.user._id,
