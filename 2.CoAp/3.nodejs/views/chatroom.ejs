@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="/public/style.css" rel="stylesheet">
+  <title>Document</title>
+
+  <link href="/public/style.css" rel="stylesheet">
+</head>
+
+<body>
+  <!-- 네비게이션바 -->
+  <%- include('nav.html') %>
+
+    <div class="container p-4 detail">
+      <ul class="list-group chat-list">
+
+        <% for (var i=0; i < data.length ; i++){ %>
+          <li class="list-group-item" data-id="<%= data[i]._id %>">
+            <h6>
+              <%= data[i].title %>
+            </h6>
+            <h6 class="text-small">
+              <%= data[i].member[0] %>
+            </h6>
+          </li>
+          <% } %>
+
+            <li class="list-group-item">
+              <h6>채팅방1</h6>
+              <h6 class="text-small">채팅방아이디</h6>
+            </li>
+      </ul>
+
+      <input class="form-control" id="chat-input">
+      <button class="btn btn-secondary" id="send">전송</button>
+
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <script>
+      $('#send').click(function(){
+        var 채팅내용= $('#chat-input').val();
+        var 보낼거 = {
+          parent: 지금누른채팅방id,
+          content: 채팅내용,
+        }
+        console.log(parent);
+        console.log(content);
+        console.log('-----');
+
+        $.post('/message', 보낼거).then((a) => {
+        console.log(a);
+      });
+      });
+
+      var 지금누른채팅방id;
+
+      $('.list-group-item').click(()=>{
+        $(this).css('background-color', '#eee');
+        지금누른채팅방id =  $(this).attr('data-id'); // attr 속성값을 가져온다 ex) class, id같은것들
+      })
+    </script>
+
+</body>
+
+</html>
