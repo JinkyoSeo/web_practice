@@ -15,44 +15,48 @@
   <!-- 네비게이션바 -->
   <%- include('nav.html') %>
 
-  <div class="container p-4 detail">
+    <div class="container p-4 detail">
 
-    <div class="row">
-      <div class="col-3">
-        <ul class="list-group chat-list">
-          <% for(var i = 0; i < data.length; i++){ %> 
-          <li class="list-group-item" data-id="">
-            <h6> <%= data[i].title %> </h6>
-            <h6 class="text-small"><%= data[i].member[0] %></h6>
-          </li>
-          <% } %>
-         </ul>
-       </div>
-  
-       <div class="col-9 p-0">
-         <div class="chat-room">
+      <div class="row">
+        <div class="col-3">
+          <ul class="list-group chat-list">
+            <% for(var i=0; i < data.length; i++){ %>
+              <li class="list-group-item" data-id="<%= data[i]._id %>">
+                <h6>
+                  <%= data[i].title %>
+                </h6>
+                <h6 class="text-small">
+                  <%= data[i].member[0] %>
+                </h6>
+              </li>
+              <% } %>
+          </ul>
+        </div>
+
+        <div class="col-9 p-0">
+          <div class="chat-room">
             <ul class="list-group chat-content">
               <li><span class="chat-box">채팅방1 내용</span></li>
               <li><span class="chat-box">채팅방1 내용</span></li>
               <li><span class="chat-box mine">채팅방1 내용</span></li>
             </ul>
-          <div class="input-group">
-            <input class="form-control" id="chat-input">
-            <button class="btn btn-secondary" id="send">전송</button>
-          </div>
+            <div class="input-group">
+              <input class="form-control" id="chat-input">
+              <button class="btn btn-secondary" id="send">전송</button>
+            </div>
 
+          </div>
         </div>
       </div>
+
     </div>
-  
-  </div> 
 
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
     <script>
-      $('#send').click(function(){
-        var 채팅내용= $('#chat-input').val();
+      $('#send').click(function () {
+        var 채팅내용 = $('#chat-input').val();
         var 보낼거 = {
           parent: 지금누른채팅방id,
           content: 채팅내용,
@@ -62,16 +66,37 @@
         //console.log('-----');
 
         $.post('/messages', 보낼거).then((a) => {
-        console.log(a);
-      });
+          console.log(a);
+        });
       });
 
       var 지금누른채팅방id; // 채팅방을 누르고 전송하면 -> 보낼거에 넣어서 보내짐
 
-      $('.list-group-item').click(function(){
+      $('.list-group-item').click(function () {
         $(this).css('background-color', '#eee');
-        지금누른채팅방id =  $(this).attr('data-id'); // attr 속성값을 가져온다 ex) class, id같은것들
-      })
+        지금누른채팅방id = $(this).attr('data-id'); // attr 속성값을 가져온다 ex) class, id같은것들
+      });
+
+      var eventSource;
+
+      $('.list-group-item').click(function () {
+        지금누른채팅방id = this.dataset.id;
+
+        $('.chat-content').html('');
+
+        // 프론트엔드에서 실시간 소통채널 여는법
+        eventSource = new EventSource('/messages/' + 지금누른채팅방id);
+        eventSource.addEventListener('test', function (e){ // 'test' 서버에서 작성한이벤트명
+          // 서버가 응답.wirte()할 때마다 내부 코드 실행
+          // e.data 서버가 보낸 data
+          console.log(e.data);
+
+          var 가져온거 = JSON.parse(e.data);
+          가져온거.forEach((a) => {
+            $('.chat-content').append(`<li><span class="chat-box">${a.content}</span></li>`);
+          });
+        });
+      });
     </script>
 
 </body>

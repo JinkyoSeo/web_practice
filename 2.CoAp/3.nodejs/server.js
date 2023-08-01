@@ -249,6 +249,39 @@ app.post('/messages', 로그인했니, (요청, 응답)=>{
   })
 })
 
+// 실시간 소통채널
+app.get('/messages/:parentid', 로그인했니, function(요청, 응답){
+  응답.writeHead(200, {
+    "Connection": "keep-alive",
+    "Content-Type": "text/event-stream",
+    "Cache-Control": "no-cache",
+  });
+
+//   // /message/어쩌구로 실시간 채널에접속하면
+//   // db에서 parent: 어쩌구를 가진게시물 다 보여줌
+//   // JSON.stringfy 쓰는 이유 : 실시간 채널은 문자만 전송 가능/ JSON.stringfy <=> JSON.parse()
+  db.collection('messages').find({parent: 요청.params.parentid}).toArray()
+  .then((결과)=>{
+    console.log(결과);
+    응답.write('event: test\n');
+    응답.write(`data: ${JSON.stringify(결과)}\n\n`);
+  });
+
+
+  const 찾을문서 = [
+    { $match: { 'fullDocument.parent' : 요청.params.parentid } }
+  ];
+  
+  const changeStream = db.collection('messages').watch(찾을문서);
+  
+  changeStream.on('change', (result)=>{
+    console.log(result.fullDocument);
+    응답.write('event: test\n');
+    var 추가된문서 = [result.fullDocument];
+    응답.write(`data: ${JSON.stringify(추가된문서)}\n\n`);
+  });
+});
+
 app.delete('/delete', function (요청, 응답) {
   요청.body._id = parseInt(요청.body._id);
   db.collection('post').deleteOne({ _id: 요청.body._id, 작성자: 요청.user._id }, function (에러, 결과) {
