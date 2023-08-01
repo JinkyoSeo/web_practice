@@ -1,9 +1,13 @@
 const express = require('express');
 const app = express();
-//const  ObjectID = require('mongodb').ObjectId; // ObjectId쓰려면?
+
 // env 파일 관리하기 위한 라이브러리 dotenv
 require('dotenv').config();
 
+// socket.io로 통신하기
+const http = require('http').createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(http);
 
 // body-parser라이브러리 사용시
 // 보낸 데이터를 쉽게 처리 가능
@@ -34,6 +38,7 @@ app.use('/', require('./routes/shop.js'));
 
 // 이미지 업로드 라이브러리. multipart/form-data를 통해 업로드된 파일을 매우 쉽게 저장, 이름변경, 처리할 수 있게 도와주는 라이브러리
 let multer = require('multer');
+const { Socket } = require('dgram');
 var storage = multer.diskStorage({
 
   destination : function(req, file, cb){
@@ -74,11 +79,15 @@ MongoClient.connect(process.env.DB_URL, { useUnifiedTopology: true }, function (
   // });
 
   //서버띄우는 코드 여기로 옮기기
-  app.listen(process.env.PORT, function () {
-    console.log('listening on 8080')
-  });
-})
-
+//   app.listen(process.env.PORT, function () {
+//     console.log('listening on 8080')
+//   });
+// })
+// -> express를 사용해서 서버를띄우다가 / http라는 nodejs기본 라이브러리 + socket.io으로 서버를 띄움
+http.listen(8080, function () {
+  console.log('listening on 8080')
+}); 
+});
 // sendFile은 파일을 보내고 싶을때 사용
 // render은 파일을 보내기 전에 ejs 파일 -> html로 바꾸고 싶을때
 app.get('/', function (요청, 응답) {
@@ -162,9 +171,6 @@ app.get('/upload', function (요청, 응답) {
 app.get('/image/:imageName', (요청, 응답)=>{
   응답.sendFile(__dirname + '/public/image/' + 요청.params.imageName);
 });
-
-
-
 
 app.post('/add', function (요청, 응답) {
   console.log(요청.user._id);
@@ -342,5 +348,37 @@ passport.deserializeUser(function (아이디, done) {
   db.collection('login').findOne({ id: 아이디 }, function (에러, 결과) {
     done(null, 결과);
   });
+});
+
+// 소켓 통신
+// 누군가 웹소켓으로 서버에 connection하면 콘솔에 출력
+io.on('connection', function(socket){
+  console.log('연결되었어요');
+  // console.log(socket); // 소켓으로 메세지를 보낼 때 id와 header 정보도 전달됨
+                          // 유니크한 id도 확인 가능해서 원하는 사람한테만 메세지전달도 가능
+
+  // io.to(socket.id).emit('broadcast', '서버응답임'); // 원하는 소켓id를 가진 사람한테만 메세지 보내기 가능
+  
+  socket.on('user-send', function(data){ // user-send 이벤트가 발생하면
+    //console.log(data);
+    io.emit('broadcast', 'data'); // io.emit 서버가 유저들에게 메세지를 보내고 싶을때
+                                  // 모든 유저에게 보내는걸 broadcast라고함
+                                  // ->단체 채팅방하고 비슷한듯?
+  });
+
+  // 방입장 요청
+  socket.on('joinroom', function(data){
+    socket.join("room1");
+  });
+
+  // 방내부 사람에게만 내용 전달.
+  socket.on('room1-send', function(data){
+    io.to("room1").emit('broadcast', data);
+  });
+
+});
+
+app.get('/socket', function(요청,응답){
+  응답.render('socket.ejs')
 });
 
