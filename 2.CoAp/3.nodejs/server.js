@@ -107,7 +107,7 @@ app.get('/write', function (요청, 응답) {
   응답.render('write.ejs')
 });
 
-app.post('/add', function (요청, 응답) {
+app.post('/add', 로그인했니, function (요청, 응답) {
   console.log(요청.user._id);
   db.collection('counter').findOne({ name: '게시물갯수' }, function (에러, 결과) {
     var 총게시물갯수 = 결과.totalPost;
@@ -148,7 +148,24 @@ app.get('/edit/:id', function (요청, 응답) {
     응답.render('edit.ejs', { post: 결과 });
   });
 });
-
+// 게시판 수정
+app.put('/edit', function (요청, 응답) {
+  db.collection('post').updateOne({ _id: parseInt(요청.body.id) }, { $set: { 제목: 요청.body.title, 날짜: 요청.body.date } }, function (에러, 결과) {
+    console.log('수정 완료');
+    //console.log(요청.body);
+    응답.redirect('/list');
+  });
+});
+// 게시판 삭제
+app.delete('/delete', function (요청, 응답) {
+  요청.body._id = parseInt(요청.body._id);
+  db.collection('post').deleteOne({ _id: 요청.body._id, 작성자: 요청.user._id }, function (에러, 결과) {
+    console.log('삭제완료');
+    console.log('에러', 에러);
+    if (_id != 요청.body._id) console.log('글 작성자가 다름');
+    응답.status(200).send({ message: '성공했습니다.' });
+  });
+})
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 //@@@@@@@@@@@    로그인    @@@@@@@@@@@@@@@@@
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -224,10 +241,26 @@ function 로그인했니(요청, 응답, next) {
     console.log(요청.user); // { _id: 64c0ad634ad830ef07893ff2, id: 'test', pw: 'test' }
   }
   else {
-    응답.send('로그인 안했누;;');
-
+    응답.send("<script>alert('로그인안했누;; 로그인창으로 가라..')</script><script>window.location=\"../login\"</script>");
+    
   }
 }
+
+// 아이디/비번이 DB와 비교했을때 맞는 경우
+// sessionID를 쿠키에 넣어서 유저에게 발급
+// serializeUser() : 유저의 id 데이터를 바탕으로 세션데이터를 만들어주고 쿠키로 보내줌
+passport.serializeUser(function (user, done) {
+  done(null, user.id);
+});
+
+// deserializeUser() : 로그인 된 유저가 마이페이지 같은걸 접속했을때 실행
+// DB에서 {id: 세션아이디에 숨겨져 있던 유저 아이디}인 게시물 찾음
+// 그 결과를 요청.user에 꽂아줌
+passport.deserializeUser(function (아이디, done) {
+  db.collection('login').findOne({ id: 아이디 }, function (에러, 결과) {
+    done(null, 결과);
+  });
+});
 
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 //@@@@@@@@@@@    로그아웃    @@@@@@@@@@@@@@@@@
@@ -361,47 +394,9 @@ app.get('/messages/:parentid', 로그인했니, function (요청, 응답) {
   });
 });
 
-app.delete('/delete', function (요청, 응답) {
-  요청.body._id = parseInt(요청.body._id);
-  db.collection('post').deleteOne({ _id: 요청.body._id, 작성자: 요청.user._id }, function (에러, 결과) {
-    console.log('삭제완료');
-    console.log('에러', 에러);
-    if (_id != 요청.body._id) console.log('글 작성자가 다름');
-    응답.status(200).send({ message: '성공했습니다.' });
-  });
-})
-
-app.put('/edit', function (요청, 응답) {
-  db.collection('post').updateOne({ _id: parseInt(요청.body.id) }, { $set: { 제목: 요청.body.title, 날짜: 요청.body.date } }, function (에러, 결과) {
-    console.log('수정 완료');
-    //console.log(요청.body);
-    응답.redirect('/list');
-  });
-});
-
-
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 //@@@@@@@@@@@@@     소켓통신    @@@@@@@@@@@@@@@
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-// 아이디/비번이 DB와 비교했을때 맞는 경우
-// sessionID를 쿠키에 넣어서 유저에게 발급
-// serializeUser() : 유저의 id 데이터를 바탕으로 세션데이터를 만들어주고 쿠키로 보내줌
-passport.serializeUser(function (user, done) {
-  done(null, user.id);
-});
-
-// deserializeUser() : 로그인 된 유저가 마이페이지 같은걸 접속했을때 실행
-// DB에서 {id: 세션아이디에 숨겨져 있던 유저 아이디}인 게시물 찾음
-// 그 결과를 요청.user에 꽂아줌
-passport.deserializeUser(function (아이디, done) {
-  db.collection('login').findOne({ id: 아이디 }, function (에러, 결과) {
-    done(null, 결과);
-  });
-});
-
-
-
-// 소켓 통신
 // 누군가 웹소켓으로 서버에 connection하면 콘솔에 출력
 io.on('connection', function (socket) {
   console.log('연결되었어요');

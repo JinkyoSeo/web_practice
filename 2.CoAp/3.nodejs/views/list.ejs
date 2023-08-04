@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link href="/public/style.css" rel="stylesheet">
@@ -21,9 +21,12 @@
       <button class="input-group-append btn btn-danger" id="search">검색</button>
     </div>
 
-    <h4 class="ml-2 my-3 text-center">서버에서 가져온 할 일 리스트</h4>
-
+    <div class="container1" style="justify-content: center;">
+      <h4 class="text-center mr-1" style="margin:0;">서버에서 가져온 할 일 리스트</h4>
+      <button class="btn btn-danger" id="write" style="box-sizing: border-box; height: 24px; font-size: 10px;">글쓰기</button>
+    </div>
     <div class="container">
+
       <ul class="list-group">
         <% for (var i=0; i < posts.length; i++){%>
           <li class="list-group-item">
@@ -39,6 +42,7 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="script.js" charset="utf-8"></script>
 
     <script>
 
@@ -49,20 +53,20 @@
           url: '/delete',
           data: { _id: e.target.dataset.id } // 서버 요청.body에 담김
         }).done(/*function*/(결과) => { // function(){} 형태보다 ()=>{} 이 형식으로 해야 this값의 변형이 없다
-        consel.log(결과);  
-        $(this/*=e.target*/).parent('li').fadeOut(); // 서버에 확인 안해보고 일단 없애서 아쉽
+          consel.log(결과);
+          $(this/*=e.target*/).parent('li').fadeOut(); // 서버에 확인 안해보고 일단 없애서 아쉽
         }).fail((xhr, code, err) => { // XMLHttpRequest, 에러코드, 에러메세지
           alert(err);
         });
       });
 
-      $('.chat').click(function(e){
+      $('.chat').click(function (e) {
         var _id = e.target.dataset.id;
-        $.post('/chatroom', {당한사람id: _id})
-        .then(()=>{
-          console.log('채팅방 게시물 생성완료');
-        })
-        .catch(()=>{console.log('실패')})
+        $.post('/chatroom', { 당한사람id: _id })
+          .then(() => {
+            console.log('채팅방 게시물 생성완료');
+          })
+          .catch(() => { console.log('실패') })
       });
     </script>
 
@@ -72,6 +76,11 @@
       $('#search').click(function () {
         var 입력한값 = $('#search-input').val();
         window.location.replace('/search?value=' + 입력한값); // 현재 URL주소를 /search?value=이닦기로 바꾸는 코드
+      });
+
+      // 글쓰기
+      $('#write').click(()=>{
+        window.location.replace('/write'); 
       });
     </script>
 </body>
