@@ -173,7 +173,7 @@ app.get('/login', function (요청, 응답) {
   응답.render('login.ejs');
 });
 
-app.post('/login', passport.authenticate('local', { failureRedirect: '/fail' }), function (요청, 응답) {
+app.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), function (요청, 응답) {
   // passport 어쩌구~ : passport 라이브러리가 제공하는 아이디비번인증 코드 
   //                   -> 응답해주기 전에 local 방식으로 아이디 비번을 인증해주세요 
   //                   -> failureRedirect : 실패시 이동시켜줄 경로
