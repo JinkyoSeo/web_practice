@@ -161,7 +161,7 @@ app.put('/edit', function (요청, 응답) {
 app.delete('/delete', function (요청, 응답) {
   요청.body._id = parseInt(요청.body._id); // _id는 게시물 id
   db.collection('post').deleteOne({ _id: 요청.body._id, 작성자: 요청.user._id }, function (에러, 결과) {
-    if (결과.deletedCount = 1 ){
+    if (결과.deletedCount === 1 ){
       응답.status(200).send({ message: '성공했습니다.' });
     }
     else {
@@ -186,7 +186,8 @@ app.post('/login', passport.authenticate('local', { failureRedirect: '/login' })
   // passport 어쩌구~ : passport 라이브러리가 제공하는 아이디비번인증 코드 
   //                   -> 응답해주기 전에 local 방식으로 아이디 비번을 인증해주세요 
   //                   -> failureRedirect : 실패시 이동시켜줄 경로
-
+  
+  //응답.render('nav.ejs', {id: 요청});
   응답.redirect('/'); // redirect() 다른 페이지로 이동 시켜줌
 });
 
