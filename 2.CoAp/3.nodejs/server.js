@@ -115,7 +115,7 @@ app.post('/add', 로그인했니, function (요청, 응답) {
     db.collection('post').insertOne(post, function (에러, 결과) {
       db.collection('counter').updateOne({ name: '게시물갯수' }, { $inc: { totalPost: 1 } }, function (에러, 결과) {
         if (에러) return console.log(에러);
-        응답.send('전송완료');
+        응답.redirect('/list');
       });
     });
   });
@@ -148,7 +148,6 @@ app.get('/edit/:id', function (요청, 응답) {
     응답.render('edit.ejs', { post: 결과 });
   });
 });
-// 게시판 수정
 app.put('/edit', function (요청, 응답) {
   db.collection('post').updateOne({ _id: parseInt(요청.body.id) }, { $set: { 제목: 요청.body.title, 날짜: 요청.body.date } }, function (에러, 결과) {
     console.log('수정 완료');
@@ -156,14 +155,19 @@ app.put('/edit', function (요청, 응답) {
     응답.redirect('/list');
   });
 });
-// 게시판 삭제
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//@@@@@@@@@@@    게시판삭제    @@@@@@@@@@@@@@@@@
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 app.delete('/delete', function (요청, 응답) {
-  요청.body._id = parseInt(요청.body._id);
+  요청.body._id = parseInt(요청.body._id); // _id는 게시물 id
   db.collection('post').deleteOne({ _id: 요청.body._id, 작성자: 요청.user._id }, function (에러, 결과) {
-    console.log('삭제완료');
-    console.log('에러', 에러);
-    if (_id != 요청.body._id) console.log('글 작성자가 다름');
-    응답.status(200).send({ message: '성공했습니다.' });
+    if (결과.deletedCount = 1 ){
+      응답.status(200).send({ message: '성공했습니다.' });
+    }
+    else {
+      console.log('글 작성자가 다름');
+      응답.status(403).json({ error: '본인 글이 아닌듯?.' });
+    }
   });
 })
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -242,7 +246,7 @@ function 로그인했니(요청, 응답, next) {
   }
   else {
     응답.send("<script>alert('로그인안했누;; 로그인창으로 가라..')</script><script>window.location=\"../login\"</script>");
-    
+
   }
 }
 
