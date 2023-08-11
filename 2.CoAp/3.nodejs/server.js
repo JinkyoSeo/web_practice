@@ -174,7 +174,12 @@ app.delete('/delete', function (요청, 응답) {
 //@@@@@@@@@@@    로그인    @@@@@@@@@@@@@@@@@
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 app.get('/login', function (요청, 응답) {
-  응답.render('login.ejs');
+  if (요청.user){
+    응답.send("<script>alert('로그인했음;; 오지마셈 ㅠ')</script><script>window.location=\"../\"</script>");
+  }
+  else{
+    응답.render('login.ejs');
+  }
 });
 
 app.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), function (요청, 응답) {
@@ -242,11 +247,11 @@ function 로그인했니(요청, 응답, next) {
     // deserializeUser(): 세션아이디를 바탕으로 이 유저의 정보를 DB에서 찾아주세요
     // 요청.user에 꽂아줌
     next();
-    console.log(요청.user); // { _id: 64c0ad634ad830ef07893ff2, id: 'test', pw: 'test' }
+    console.log('로그인 했음');
+    //console.log(요청.user); // { _id: 64c0ad634ad830ef07893ff2, id: 'test', pw: 'test' }
   }
   else {
-    응답.send("<script>alert('로그인안했누;; 로그인창으로 가라..')</script><script>window.location=\"../login\"</script>");
-
+    응답.send("<script>alert('로그인안했누;;')</script><script>window.location=\"../\"</script>");
   }
 }
 
