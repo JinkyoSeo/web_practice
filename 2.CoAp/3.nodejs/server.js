@@ -111,7 +111,7 @@ app.post('/add', 로그인했니, function (요청, 응답) {
   console.log(요청.user._id);
   db.collection('counter').findOne({ name: '게시물갯수' }, function (에러, 결과) {
     var 총게시물갯수 = 결과.totalPost;
-    var post = { _id: 총게시물갯수 + 1, 작성자: 요청.user._id, 제목: 요청.body.title, 날짜: 요청.body.date }
+    var post = { _id: 총게시물갯수 + 1, 작성자: 요청.user._id, 작성자이름: 요청.user.id, 제목: 요청.body.title, 날짜: 요청.body.date }
     db.collection('post').insertOne(post, function (에러, 결과) {
       db.collection('counter').updateOne({ name: '게시물갯수' }, { $inc: { totalPost: 1 } }, function (에러, 결과) {
         if (에러) return console.log(에러);
@@ -323,9 +323,9 @@ app.get('/image/:imageName', (요청, 응답) => {
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 var ObjectId = require('mongodb').ObjectID;
 app.post('/chatroom', function (요청, 응답) {
-  //console.log(요청.body.당한사람id);
+  console.log(요청.body.당한사람id);
   var 저장할거 = {
-    title: '무슨무슨채팅방',
+    title: 요청.body.당한사람이름,//'무슨무슨채팅방',
     member: [ObjectId(요청.body.당한사람id), 요청.user._id],
     date: new Date()
   }
