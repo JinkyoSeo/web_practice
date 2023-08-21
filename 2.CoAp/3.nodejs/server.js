@@ -323,9 +323,9 @@ app.get('/image/:imageName', (요청, 응답) => {
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 var ObjectId = require('mongodb').ObjectID;
 app.post('/chatroom', function (요청, 응답) {
-  console.log(요청.body.당한사람id);
+  //console.log(요청.body.당한사람id);
   var 저장할거 = {
-    title: 요청.body.당한사람이름,//'무슨무슨채팅방',
+    title: [요청.body.당한사람이름, 요청.user.id],//'무슨무슨채팅방',
     member: [ObjectId(요청.body.당한사람id), 요청.user._id],
     date: new Date()
   }
@@ -339,7 +339,7 @@ app.post('/chatroom', function (요청, 응답) {
 
 app.get('/chatroom', 로그인했니, function (요청, 응답) {
   db.collection('chatroom').find({ member: 요청.user._id }).toArray().then((결과) => {
-    //console.log(결과);
+    console.log(결과);
     응답.render('chatroom.ejs', { data: 결과 })
   })
 });
