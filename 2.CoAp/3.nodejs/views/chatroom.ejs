@@ -21,7 +21,8 @@
         <div class="col-3">
           <ul class="list-group chat-list">
             <% for(var i=0; i < data.length; i++){ %>
-              <li class="list-group-item" data-id="<%= data[i]._id %>">
+              <!-- data-index="<%= i %>" -->
+              <li class="list-group-item" id="chat-list" data-id="<%= data[i]._id %>">
                 <h6>
                   <%= data[i].title + "'s channel" %>
                 </h6>
@@ -71,10 +72,11 @@
       });
 
       var 지금누른채팅방id; // 채팅방을 누르고 전송하면 -> 보낼거에 넣어서 보내짐
-
+      //var 이전에누른채팅방index = -1; //
       $('.list-group-item').click(function () {
+        $('ul #chat-list').css('background-color', 'white');
         $(this).css('background-color', '#eee');
-        지금누른채팅방id = $(this).attr('data-id'); // attr 속성값을 가져온다 ex) class, id같은것들
+        지금누른채팅방id = $(this).attr('data-id'); // attr 속성값을 가져온다 ex) class, id같은것들;
       });
 
       var eventSource;
