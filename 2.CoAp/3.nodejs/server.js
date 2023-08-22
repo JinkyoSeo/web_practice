@@ -340,8 +340,9 @@ app.post('/chatroom', function (요청, 응답) {
 app.get('/chatroom', 로그인했니, function (요청, 응답) {
   db.collection('chatroom').find({ member: 요청.user._id }).toArray().then((결과) => {
     console.log(결과);
+    console.log(결과.title);
     응답.render('chatroom.ejs', { data: 결과 })
-  })
+  });
 });
 // function 채팅중복이니(요청, 응답, next) {
 //   if (요청.user) { // 요청.user 로그인 한 유저의 DB상 정보 / id, pw, name...
